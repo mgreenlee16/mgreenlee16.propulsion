@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 4 · Rocket Propulsion · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="lessons" data-lesson="module4">
+<main>
+<div class="prose">
+  <div class="eyebrow">Module 4 · Exam 3 · Lectures 14–17</div>
+  <h1>Rocket Propulsion</h1>
+  <p class="lead">A rocket carries its own oxidizer, so it works in space, and its whole performance comes from a hot chamber feeding a nozzle. This module covers the rocket equation and how to size an engine from chamber conditions and nozzle geometry (C10), solid motor ballistics (C11), and how to judge a design choice against a criterion (J3).</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#types">Types of rockets</a></li>
+    <li><a href="#dv">The rocket equation and mass fractions</a></li>
+    <li><a href="#c10">C10 · Chamber, c*, C_F and Isp</a></li>
+    <li><a href="#c11">C11 · Solid rocket motors</a></li>
+    <li><a href="#j3">J3 · Evaluating design choices</a></li>
+  </ol></nav>
+
+  <h2 id="types"><span class="sec">Lectures 14–15</span>Types of rockets</h2>
+  <table class="data"><thead><tr><th>Type</th><th>Pros</th><th>Cons</th><th>Examples</th></tr></thead><tbody>
+    <tr><td>Solid</td><td>Simple, storable, instant response, high thrust, high λ</td><td>Low Isp, hard to throttle or stop, the flight unit can't be test-fired, hazardous logistics</td><td>Sidewinder, Minuteman, SLS/Shuttle boosters, GEM, Castor</td></tr>
+    <tr><td>Liquid</td><td>High Isp, testable, throttleable and restartable, propellants can be unloaded</td><td>Complex (pumps, valves), lower λ, slow to prepare</td><td>RS-25, RS-68, RD-180, Merlin, BE-4</td></tr>
+    <tr><td>Hybrid</td><td>Safer, throttleable (oxidizer flow)</td><td>Mid Isp, low regression rates</td><td>SpaceShipTwo (HTPB + N₂O)</td></tr>
+    <tr><td>Electric / nuclear</td><td>Isp from 800 (NTR) to thousands of seconds</td><td>Tiny thrust (electric), politics and shielding (nuclear)</td><td>Ion and Hall thrusters, NERVA (tested, never flown)</td></tr>
+  </tbody></table>
+  <p>In general \(I_{sp,liquid} &gt; I_{sp,hybrid} &gt; I_{sp,solid}\) while \(\lambda_{solid} &gt; \lambda_{hybrid} &gt; \lambda_{liquid}\). The two figures of merit are specific impulse and propellant mass fraction.</p>
+
+  <h2 id="dv"><span class="sec">Lecture 15</span>The rocket equation and mass fractions</h2>
+  <p>Masses: payload \(m_{pl}\), propellant \(m_p\), inert \(m_i\). Initial \(m_0 = m_{pl} + m_p + m_i\), final \(m_f = m_{pl} + m_i\).</p>
+  $$\Delta v = g_0I_{sp}\ln\frac{m_0}{m_f} - \int_0^{t_b}g\cos\theta\,dt - \text{drag and steering losses},\qquad MR = \frac{m_0}{m_f},\qquad \lambda = \frac{m_p}{m_p + m_i}.$$
+  <p>Solving for the propellant needed (equation sheet): \(m_p = m_{pl}\dfrac{MR - 1}{MR - (MR - 1)/\lambda}\) and \(m_i = m_p(1 - \lambda)/\lambda\). If the denominator is zero or negative, no single stage can do it. Reaching LEO takes about 9.3–10 km/s including about 1.5–2 km/s of gravity and drag losses, so one stage is impractical. Trajectories pitch over early so most acceleration happens high up and nearly horizontal, keeping g·t losses low.</p>
+
+  <h2 id="c10"><span class="sec">C10</span>Chamber, c*, C_F and Isp</h2>
+  <p>Treat the chamber as the stagnation state (\(p_c = p_t\), \(T_c = T_t\)), assume steady, adiabatic, frozen, isentropic flow of an ideal gas with constant \(\gamma\) and \(\mathcal M\), and a choked throat. Then the mass flow, thrust and specific impulse are</p>
+  $$\dot m = \frac{p_cA_t}{c^*},\qquad F = \dot mu_e + (p_e - p_a)A_e = C_Fp_cA_t,\qquad I_{sp} = \frac{F}{\dot mg_0} = \frac{C_Fc^*}{g_0}.$$
+  <p>The <b>characteristic velocity</b> depends only on the combustion (hot, light exhaust is best):</p>
+  $$c^* = \sqrt{\frac{\bar RT_c}{\mathcal M\gamma}}\left(\frac{2}{\gamma+1}\right)^{-\frac{\gamma+1}{2(\gamma-1)}}.$$
+  <p>The <b>thrust coefficient</b> depends only on the nozzle (\(\gamma\), \(\varepsilon = A_e/A_t\), \(p_e/p_c\), \(p_a/p_c\)):</p>
+  $$C_F = \sqrt{\frac{2\gamma^2}{\gamma-1}\left(\frac{2}{\gamma+1}\right)^{\frac{\gamma+1}{\gamma-1}}\left[1 - \left(\frac{p_e}{p_c}\right)^{\frac{\gamma-1}{\gamma}}\right]} + \left(\frac{p_e}{p_c} - \frac{p_a}{p_c}\right)\varepsilon,\qquad C_F = C_{F,vac} - \frac{p_a}{p_c}\varepsilon.$$
+  <p>\(p_e/p_c\) comes from \(\varepsilon\) through the isentropic area–Mach relation (supersonic branch, with the exhaust \(\gamma\)). Altitude correction: \(I_{sp} = I_{sp,vac} - p_aA_e/(\dot mg_0)\). For a given altitude, \(C_F\) is maximized when \(p_e = p_a\) (perfect expansion). In vacuum a bigger \(\varepsilon\) always helps, but with diminishing returns and growing nozzle mass.</p>
+  <p><b>Sizing recipe:</b> combustion gives \(T_c\), \(\mathcal M\), \(\gamma\) → \(c^*\); choose \(p_c\) and \(\varepsilon\) → \(p_e/p_c\) → \(C_F\) at the design altitude; thrust requirement → \(A_t = F/(C_Fp_c)\), \(A_e = \varepsilon A_t\), \(\dot m = p_cA_t/c^*\). Real engines get about 92–98% of the ideal \(c^*\) and \(C_F\) (incomplete combustion, heat loss, divergence and boundary-layer losses).</p>
+</div>
+
+<section class="lab" id="lab1">
+  <div class="lab-head"><span class="num">Interactive 1</span><span class="title">Thrust coefficient: area ratio versus altitude</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="rG">Exhaust γ = <output for="rG"></output></label><input type="range" id="rG" min="1.12" max="1.4" step="0.01" value="1.2" data-dec="2"></div>
+    <div class="ctl"><label for="rP">Chamber pressure p<sub>c</sub> = <output for="rP"></output> MPa</label><input type="range" id="rP" min="1" max="25" step="0.5" value="7" data-dec="1"></div>
+    <div class="ctl"><label for="rA">Ambient pressure p<sub>a</sub> = <output for="rA"></output> kPa</label><input type="range" id="rA" min="0" max="101.3" step="0.1" value="101.3" data-dec="1"></div>
+    <div class="ctl"><label for="rE">Area ratio ε = <output for="rE"></output></label><input type="range" id="rE" min="1.5" max="100" step="0.5" value="15" data-dec="1"></div>
+    <div class="ctl"><label for="rT">T<sub>c</sub> = <output for="rT"></output> K, 𝓜 = 22</label><input type="range" id="rT" min="2000" max="3800" step="50" value="3300" data-dec="0"></div>
+    <div id="ro1" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot1"></div><figcaption>C<sub>F</sub> versus ε at this p<sub>a</sub>/p<sub>c</sub> (blue) and in vacuum (dashed). The peak of the blue curve is where p<sub>e</sub> = p<sub>a</sub>. Curves stop where the exit pressure falls below about 0.35 p<sub>a</sub> (Summerfield's separation estimate).</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <h3>Heister's first law and Canino's counter</h3>
+  <p>Isp only measures propellant efficiency. Vehicle performance also depends on density (tank mass), \(\lambda\), thrust-to-weight and operations, which is why dense, low-Isp first stages (kerosene, solids) and light, high-Isp upper stages (hydrogen) coexist.</p>
+  <div data-drill="C10"></div>
+
+  <h2 id="c11"><span class="sec">C11</span>Solid rocket motors</h2>
+  <p><b>Parts:</b> case, grain (propellant) with a port, liner/insulation, igniter (pyrogen = small motor; pyrotechnic = charge), nozzle. <b>Propellants:</b> double-base (homogeneous NC/NG) or composite (AP oxidizer ~60–70%, Al fuel ~18%, HTPB or PBAN binder ~12%). Shuttle SRB exhaust was about 24% H₂, 20% CO, 18% H₂O, 17% HCl, 9% N₂ and 6% Al₂O₃ by mole.</p>
+  <p><b>Burn rate.</b> The surface regresses normal to itself at rate \(r_b\), modeled by St. Robert's (Vieille's) law \(r_b = ap_c^n\), with \(n \approx 0.3\)–0.5 typical. Watch the units of \(a\): they carry \(p^{-n}\).</p>
+  <p><b>Steady lumped-parameter model.</b> Treat the whole chamber as one control volume at uniform pressure (low port Mach number, quasi-steady, frozen, constant \(T_t\)). Mass generated = mass through the choked throat:</p>
+  $$\rho_pA_br_b = \frac{p_cA_t}{c^*}\quad\Longrightarrow\quad p_c = \left(\frac{a\rho_pA_bc^*}{A_t}\right)^{\frac1{1-n}},\qquad F = C_Fp_cA_t.$$
+  <p>(The equation sheet writes \(g_c\) in the denominator for US units.) Since \(p_c \propto (A_b/A_t)^{1/(1-n)}\), the chamber pressure follows the burning area. With \(n &lt; 1\) the operating point is <b>stable</b>: a pressure bump raises the outflow (∝ p) faster than the generation (∝ pⁿ), so it decays. With \(n \ge 1\) it runs away. Small \(n\) also means low sensitivity to cracks and temperature.</p>
+  <p><b>Grain design.</b> Progressive (\(A_b\), \(p_c\), F rise: an internal-burning tube), regressive (fall: a rod burning outward, good for boosters needing maximum thrust at t = 0), neutral (nearly constant: star, wagon-wheel, rod-and-tube). Burn time ≈ web thickness / average burn rate. <b>Prediction</b> runs the model forward from geometry to \(p_c(t)\); <b>reconstruction</b> runs it backward from a measured \(p_c(t)\) to \(A_b(t)\).</p>
+  <h3>Lecture example</h3>
+  <p>\(r_b = 0.5p_c^{0.35}\) (cm/s, MPa), \(\rho_p = 1700\) kg/m³, \(c^* = 1500\) m/s, \(\gamma = 1.2\): compute \(A_b/A_t\) at t = 0 and at burnout from the drawing, then \(p_c\) from the relation above, converting \(a\) to SI: \(0.005\,(10^{-6})^{0.35}\) m/s·Pa\(^{-0.35}\). The Interactive below lets you build that motor.</p>
+</div>
+
+<section class="lab" id="lab2">
+  <div class="lab-head"><span class="num">Interactive 2</span><span class="title">Tube grain: pressure and thrust versus time</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="sN">Burn-rate exponent n = <output for="sN"></output></label><input type="range" id="sN" min="0.1" max="0.8" step="0.05" value="0.35" data-dec="2"></div>
+    <div class="ctl"><label for="sD">Initial port diameter = <output for="sD"></output> cm</label><input type="range" id="sD" min="2" max="10" step="0.5" value="4" data-dec="1"></div>
+    <div class="ctl"><label for="sO">Outer diameter = <output for="sO"></output> cm</label><input type="range" id="sO" min="8" max="30" step="0.5" value="14" data-dec="1"></div>
+    <div class="ctl"><label for="sT">Throat diameter = <output for="sT"></output> cm</label><input type="range" id="sT" min="1" max="5" step="0.1" value="2.2" data-dec="1"></div>
+    <div class="ctl inline"><span>Burning</span><div class="seg" id="sM" data-value="in"><button data-value="in" aria-pressed="true">inner port (progressive)</button><button data-value="out" aria-pressed="false">outer surface of a rod (regressive)</button><button data-value="both" aria-pressed="false">both (neutral)</button></div></div>
+    <p class="drag-hint">Length 50 cm, ends inhibited, a = 0.5 cm/s·MPa⁻ⁿ, ρ<sub>p</sub> = 1700 kg/m³, c* = 1500 m/s, C<sub>F</sub> = 1.5.</p>
+    <div id="ro2" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot2"></div><figcaption>Chamber pressure (blue, MPa) and thrust (pink, kN) from a time-stepped lumped-parameter model.</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <div data-drill="C11"></div>
+
+  <h2 id="j3"><span class="sec">J3</span>Evaluating design choices</h2>
+  <p>J3 gives you a performance criterion and a design choice to evaluate. Use the same structure as J2: <i>state the criterion → identify the relation that connects the choice to it → decide → name the cost.</i> The relations you need are almost always one of these:</p>
+  <ul>
+    <li>\(\Delta v = g_0I_{sp}\ln MR\): Isp versus mass fraction, for payload or Δv criteria.</li>
+    <li>\(I_{sp} = C_Fc^*/g_0\), \(c^* \propto \sqrt{T_c/\mathcal M}\): propellant choice, mixture ratio (rich lowers 𝓜).</li>
+    <li>\(C_F(\varepsilon, p_a/p_c)\): nozzle area ratio for an altitude range; separation risk at sea level.</li>
+    <li>\(p_c \propto (A_b/A_t)^{1/(1-n)}\): grain shape for a thrust profile; burn-rate exponent for stability.</li>
+    <li>Operational criteria: storability, response time, throttling, reuse, testability, cost and safety.</li>
+  </ul>
+  <div data-drill="J3"></div>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam3.js"></script>
+<script>
+(function () {
+  const f = (x, d = 4) => (isFinite(x) ? (+x.toPrecision(d)).toString() : "—");
+  UI.wire("#lab1", () => {
+    const g = UI.val("rG"), pc = UI.val("rP") * 1e6, pa = UI.val("rA") * 1e3, eps = UI.val("rE"), Tc = UI.val("rT");
+    const es = UI.linspace(1.5, 100, 200), pr = es.map(e => GD.pe_pc(e, g));
+    const cfA = es.map((e, i) => (pr[i] * pc >= 0.35 * pa ? GD.cf(pr[i], pa / pc, e, g) : NaN)), cfV = es.map((e, i) => GD.cf(pr[i], 0, e, g));
+    const pe = GD.pe_pc(eps, g), cf = GD.cf(pe, pa / pc, eps, g), cs = GD.cstar(Tc, 22, g);
+    const epsOpt = pa > 0 ? GD.AAs(GD.M_ptp(pc / pa, g), g) : Infinity;
+    UI.plot("#plot1", { xlabel: "ε = A_e/A_t", ylabel: "C_F", xlim: [1.5, 100], h: 320,
+      series: [{ x: es, y: cfV, c: 6, dash: true }, { x: es.filter((_, i) => isFinite(cfA[i])), y: cfA.filter(isFinite), c: 1, width: 2.5 }],
+      points: [{ x: eps, y: cf, c: 4 }], vlines: isFinite(epsOpt) && epsOpt < 100 ? [{ x: epsOpt, c: 6, label: "p_e = p_a" }] : [] });
+    const state = pa === 0 ? "vacuum: underexpanded" : Math.abs(pe * pc - pa) / pa < 0.03 ? "perfectly expanded" : pe * pc > pa ? "underexpanded" : pe * pc < 0.35 * pa ? "overexpanded: likely separated" : "overexpanded";
+    UI.readout("#ro1", [["p_e", f(pe * pc / 1000) + " kPa"], ["C_F", f(cf)], ["C_F,vac", f(GD.cf(pe, 0, eps, g))], ["c*", f(cs) + " m/s"], ["Isp", f(cf * cs / 9.80665) + " s"], ["ε for p_e = p_a", isFinite(epsOpt) ? f(epsOpt, 3) : "∞"], ["state", state]]);
+    UI.live("#lab1", state);
+  });
+  UI.wire("#lab2", () => {
+    const n = UI.val("sN"), d0 = UI.val("sD"), D = Math.max(UI.val("sO"), d0 + 1), Dt = UI.val("sT"), mode = UI.seg("sM"), L = 50;
+    const a = 0.005 * Math.pow(1e-6, n), rho = 1700, cs = 1500, CF = 1.5, At = Math.PI * (Dt / 100) ** 2 / 4;
+    // inner port radius ri grows; for "out" the rod has radius ro shrinking from D/2 (no port); "both": tube burning inside and outside
+    let ri = mode === "out" ? 0 : d0 / 200, ro = D / 200, t = 0;
+    const ts = [], ps = [], Fs = [];
+    for (let k = 0; k < 20000; k++) {
+      const Ab = 2 * Math.PI * L / 100 * ((mode !== "out" ? ri : 0) + (mode !== "in" ? ro : 0));
+      if (ro - ri <= 1e-5 || Ab <= 0) break;
+      const pc = Math.pow(a * rho * Ab * cs / At, 1 / (1 - n)), r = a * Math.pow(pc, n);
+      ts.push(t); ps.push(pc / 1e6); Fs.push(CF * pc * At / 1000);
+      const dt = 2e-4 / r;
+      if (mode !== "out") ri += r * dt;
+      if (mode !== "in") ro -= r * dt;
+      t += dt;
+    }
+    UI.plot("#plot2", { xlabel: "t (s)", ylabel: "p_c (MPa) · F (kN)", xlim: [0, Math.max(t, 0.1)], ylim: [0, Math.max(...ps, ...Fs) * 1.1 || 1], h: 320,
+      series: [{ x: ts, y: ps, c: 1, width: 2.5 }, { x: ts, y: Fs, c: 4, width: 2.5 }] });
+    const I = Fs.reduce((s, F, i) => s + F * 1000 * (i ? ts[i] - ts[i - 1] : 0), 0);
+    UI.readout("#ro2", [["p_c start / end", `${f(ps[0], 3)} / ${f(ps[ps.length - 1], 3)} MPa`], ["F start / end", `${f(Fs[0], 3)} / ${f(Fs[Fs.length - 1], 3)} kN`], ["burn time", f(t, 3) + " s"], ["total impulse", f(I / 1000, 3) + " kN·s"]]);
+    UI.live("#lab2", { in: "progressive", out: "regressive", both: "neutral" }[mode]);
+  });
+})();
+</script>
+<script src="../assets/js/module.js"></script>
+</body>
+</html>

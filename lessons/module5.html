@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 · Heat Transfer · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="lessons" data-lesson="module5">
+<main>
+<div class="prose">
+  <div class="eyebrow">Module 5 · Exam 3 · Lectures 18–20 and convection</div>
+  <h1>Heat Transfer</h1>
+  <p class="lead">Combustors, turbine blades and rocket throats sit in gas far hotter than any metal can survive. Keeping them alive is a heat-transfer problem. This module covers the three modes, resistance networks and 1-D steady conduction, choosing and applying a convective correlation (C12), and fins (C13).</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#modes">Modes and the energy balance</a></li>
+    <li><a href="#cond">1-D steady conduction and thermal resistance</a></li>
+    <li><a href="#c12">C12 · Convective correlations</a></li>
+    <li><a href="#c13">C13 · Fins and fin arrays</a></li>
+  </ol></nav>
+
+  <h2 id="modes"><span class="sec">Lecture 18</span>Modes and the energy balance</h2>
+  <p>Thermal energy \(U\) (J), temperature \(T\) (its driving potential), heat \(Q\) (J), heat rate \(q\) (W), heat flux \(q''\) (W/m²). The energy balance is "in − out + generated = stored": \(\dot E_{in} - \dot E_{out} + \dot E_g = \dot E_{st}\).</p>
+  <table class="data"><thead><tr><th>Mode</th><th>Rate equation</th><th>Needs</th></tr></thead><tbody>
+    <tr><td>Conduction (Fourier)</td><td>\(q = -kA\nabla T\); 1-D: \(q_x = -kA\,dT/dx\)</td><td>a medium, solid or stationary fluid</td></tr>
+    <tr><td>Convection (Newton)</td><td>\(q = hA(T_s - T_\infty)\)</td><td>a moving fluid</td></tr>
+    <tr><td>Radiation</td><td>\(q = \varepsilon\sigma A(T_s^4 - T_{sur}^4)\), \(\sigma = 5.67\times10^{-8}\) W/m²·K⁴</td><td>nothing (photons)</td></tr>
+  </tbody></table>
+  <p>Radiation can be linearized: \(q = h_rA(T_s - T_{sur})\) with \(h_r = \varepsilon\sigma(T_s + T_{sur})(T_s^2 + T_{sur}^2)\). Always use kelvin for radiation.</p>
+
+  <h2 id="cond"><span class="sec">Lecture 19</span>1-D steady conduction and thermal resistance</h2>
+  <p>The heat equation (equation sheet): \(\nabla\cdot(k\nabla T) + \dot q = \rho c_p\,\partial T/\partial t\). For steady 1-D conduction with no generation and constant \(k\), the plane-wall temperature is linear and the cylinder's is logarithmic. Each piece acts like an electrical resistor, \(R = \Delta T/q\):</p>
+  $$R_{wall} = \frac{L}{kA},\qquad R_{cyl} = \frac{\ln(r_2/r_1)}{2\pi kL},\qquad R_{conv} = \frac{1}{hA},\qquad R_{rad} = \frac{1}{h_rA}.$$
+  <p>Series resistances add; parallel ones add as reciprocals. Then \(q = (T_{\infty,1} - T_{\infty,2})/R_{tot}\), and you walk through the network to get each interface temperature. The biggest resistance takes the biggest temperature drop, which is how a thin ceramic thermal-barrier coating protects a turbine blade. Contact resistances \(R''_{t,c}\) add in series at joints. For a cylinder, adding insulation can <i>increase</i> heat loss until \(r &gt; r_{cr} = k/h\).</p>
+  <p>With uniform generation \(\dot q\) in a plane wall of half-thickness \(L\) with both surfaces at \(T_s\): \(T(x) = \frac{\dot qL^2}{2k}\left(1 - \frac{x^2}{L^2}\right) + T_s\).</p>
+</div>
+
+<section class="lab" id="lab1">
+  <div class="lab-head"><span class="num">Interactive 1</span><span class="title">A cooled combustor liner as a resistance network</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="wTi">Hot gas T = <output for="wTi"></output> K, h<sub>i</sub> = 2000 W/m²·K</label><input type="range" id="wTi" min="800" max="2400" step="50" value="1800" data-dec="0"></div>
+    <div class="ctl"><label for="wC">Thermal barrier coating (k = 1 W/m·K) = <output for="wC"></output> mm</label><input type="range" id="wC" min="0" max="1" step="0.05" value="0.3" data-dec="2"></div>
+    <div class="ctl"><label for="wM">Metal (k = 20 W/m·K) = <output for="wM"></output> mm</label><input type="range" id="wM" min="0.5" max="5" step="0.1" value="1.5" data-dec="1"></div>
+    <div class="ctl"><label for="wH">Coolant h<sub>o</sub> = <output for="wH"></output> W/m²·K at 800 K</label><input type="range" id="wH" min="50" max="3000" step="50" value="800" data-dec="0"></div>
+    <div id="ro1" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot1"></div><figcaption>Temperature through the liner (gas side on the left). Each layer's drop is q″ times its resistance. Keep the metal below about 1200 K.</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <h2 id="c12"><span class="sec">C12</span>Convective correlations</h2>
+  <p>Convection coefficients come from dimensionless correlations \(Nu = f(Re, Pr)\), with \(Re_\ell = \rho V\ell/\mu\), \(Nu_\ell = h\ell/k_f\) and \(Pr = c_p\mu/k = \nu/\alpha\). C12 is about <b>selecting</b> the right one. Ask in order: internal or external flow? Laminar or turbulent (compute Re)? Heating or cooling, and is the surface at constant \(T_s\) or constant \(q''_s\)? Which temperature do I evaluate properties at (film \(T_f = (T_s + T_\infty)/2\) for external flow, mean bulk temperature for internal)? Is the flow high speed (use the recovery temperature)? Check the correlation's validity range.</p>
+  <table class="data"><thead><tr><th>Situation</th><th>Correlation</th><th>Range</th></tr></thead><tbody>
+    <tr><td>Flat plate, laminar, average</td><td>\(\overline{Nu}_L = 0.664Re_L^{1/2}Pr^{1/3}\)</td><td>\(Re_L &lt; 5\times10^5\), \(Pr \ge 0.6\)</td></tr>
+    <tr><td>Flat plate, mixed, average</td><td>\(\overline{Nu}_L = (0.037Re_L^{4/5} - 871)Pr^{1/3}\)</td><td>\(5\times10^5 &lt; Re_L \le 10^8\)</td></tr>
+    <tr><td>Flat plate, turbulent, local</td><td>\(Nu_x = 0.0296Re_x^{4/5}Pr^{1/3}\)</td><td>\(Re_x &gt; 5\times10^5\)</td></tr>
+    <tr><td>Pipe, laminar, fully developed</td><td>\(Nu_D = 3.66\) (const. \(T_s\)) or 4.36 (const. \(q''\))</td><td>\(Re_D &lt; 2300\)</td></tr>
+    <tr><td>Pipe, turbulent (Dittus–Boelter)</td><td>\(Nu_D = 0.023Re_D^{4/5}Pr^n\), \(n = 0.4\) heating, 0.3 cooling</td><td>\(Re_D \gtrsim 10^4\), \(0.6 \le Pr \le 160\), \(L/D \gtrsim 10\)</td></tr>
+    <tr><td>Rocket nozzle wall (Bartz)</td><td>\(h_g = \dfrac{0.026}{D_t^{0.2}}\dfrac{\mu^{0.2}c_p}{Pr^{0.6}}(\rho_\infty V_\infty)^{0.8}\left(\dfrac{\rho_{am}}{\rho_\infty}\right)^{0.8}\left(\dfrac{\mu_{am}}{\mu_0}\right)^{0.2}\)</td><td>\(T_{am} = (T_\infty + T_w)/2\), \(\mu \propto T^\omega\)</td></tr>
+  </tbody></table>
+  <p><b>High-speed flow.</b> Friction heating in the boundary layer means the wall heats toward the <b>adiabatic wall (recovery) temperature</b> \(T_{aw} = T_g\left(1 + r\frac{\gamma-1}{2}M^2\right)\), with \(r = Pr^{1/3}\) (turbulent; \(Pr^{1/2}\) laminar). Use \(q'' = h(T_{aw} - T_w)\). Heat flux in a rocket nozzle peaks near the throat, where \(\rho V\) is largest.</p>
+  <p><b>Internal flow energy balance.</b> For constant surface temperature, the mean temperature approaches \(T_s\) exponentially (equation sheet):</p>
+  $$\frac{\Delta T_o}{\Delta T_i} = \frac{T_s - T_{m,o}}{T_s - T_{m,i}} = \exp\left(-\frac{\bar hPL}{\dot mc_p}\right),\qquad q = \bar hA_s\Delta T_{lm},\quad \Delta T_{lm} = \frac{\Delta T_o - \Delta T_i}{\ln(\Delta T_o/\Delta T_i)}.$$
+  <p>For a fixed outside fluid temperature \(T_\infty\) instead of \(T_s\), replace \(\bar hPL\) with \(\bar UA_s = 1/R_{tot}\). This is how regenerative cooling channels and heat exchangers are sized.</p>
+  <div data-drill="C12"></div>
+
+  <h2 id="c13"><span class="sec">C13</span>Fins and fin arrays</h2>
+  <p>A fin adds surface area for convection. An energy balance on a slice of a fin with constant cross-section \(A_c\) and perimeter \(P\) gives \(d^2\theta/dx^2 - m^2\theta = 0\) with \(\theta = T - T_\infty\) and \(m^2 = hP/(kA_c)\). With \(M = \sqrt{hPkA_c}\,\theta_b\):</p>
+  <table class="data"><thead><tr><th>Tip condition</th><th>Fin heat rate \(q_f\)</th></tr></thead><tbody>
+    <tr><td>Convective tip</td><td>\(M\dfrac{\sinh mL + (h/mk)\cosh mL}{\cosh mL + (h/mk)\sinh mL}\)</td></tr>
+    <tr><td>Adiabatic tip</td><td>\(M\tanh mL\) (use the corrected length \(L_c = L + D/4\) for a pin or \(L + t/2\) for a plate to approximate a convective tip)</td></tr>
+    <tr><td>Fixed tip temperature</td><td>\(M\dfrac{\cosh mL - \theta_L/\theta_b}{\sinh mL}\)</td></tr>
+    <tr><td>Infinite fin (\(mL &gt; 2.65\))</td><td>\(M\)</td></tr>
+  </tbody></table>
+  <p><b>Fin efficiency</b> \(\eta_f = q_f/(hA_f\theta_b)\) compares the fin with an ideal one that is all at \(T_b\); for an adiabatic tip, \(\eta_f = \tanh(mL)/(mL)\). <b>Effectiveness</b> \(\varepsilon_f = q_f/(hA_{c,b}\theta_b)\) compares it with no fin; it should be at least 2. Fins pay off most with high \(k\), thin sections (large \(P/A_c\)) and low \(h\) (gases, not liquids). <b>Arrays:</b> \(A_t = NA_f + A_b\), \(\eta_o = 1 - \frac{NA_f}{A_t}(1 - \eta_f)\), \(q_t = \eta_ohA_t\theta_b\).</p>
+</div>
+
+<section class="lab" id="lab2">
+  <div class="lab-head"><span class="num">Interactive 2</span><span class="title">Pin fin temperature and efficiency</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="fk">k = <output for="fk"></output> W/m·K</label><input type="range" id="fk" min="10" max="400" step="5" value="180" data-dec="0"></div>
+    <div class="ctl"><label for="fh">h = <output for="fh"></output> W/m²·K</label><input type="range" id="fh" min="5" max="500" step="5" value="50" data-dec="0"></div>
+    <div class="ctl"><label for="fD">Diameter D = <output for="fD"></output> mm</label><input type="range" id="fD" min="1" max="20" step="0.5" value="5" data-dec="1"></div>
+    <div class="ctl"><label for="fL">Length L = <output for="fL"></output> mm</label><input type="range" id="fL" min="5" max="200" step="1" value="50" data-dec="0"></div>
+    <p class="drag-hint">Base 400 K, air 300 K, convective tip.</p>
+    <div id="ro2" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot2"></div><figcaption>Temperature along the fin (blue). The dashed line is the ideal fin at T<sub>b</sub>; the ratio of areas between each curve and T<sub>∞</sub> is the fin efficiency.</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <div data-drill="C13"></div>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam3.js"></script>
+<script>
+(function () {
+  const f = (x, d = 4) => (isFinite(x) ? (+x.toPrecision(d)).toString() : "—");
+  UI.wire("#lab1", () => {
+    const Ti = UI.val("wTi"), tc = UI.val("wC") / 1000, tm = UI.val("wM") / 1000, ho = UI.val("wH"), To = 800, hi = 2000;
+    const Rs = [1 / hi, tc / 1, tm / 20, 1 / ho], Rt = Rs.reduce((a, b) => a + b, 0), q = (Ti - To) / Rt;
+    const T1 = Ti - q * Rs[0], T2 = T1 - q * Rs[1], T3 = T2 - q * Rs[2];
+    const x = [-1, 0, tc * 1000, (tc + tm) * 1000, (tc + tm) * 1000 + 1];
+    UI.plot("#plot1", { xlabel: "position (mm), gas → coolant", ylabel: "T (K)", xlim: [-1, x[4]], h: 300,
+      series: [{ x, y: [Ti, T1, T2, T3, To], c: 1, width: 2.5 }], hlines: [{ y: 1200, c: 4, label: "metal limit" }],
+      bands: tc > 0 ? [{ x0: 0, x1: tc * 1000, label: "TBC" }] : [] });
+    UI.readout("#ro1", [["q″", f(q / 1e6, 3) + " MW/m²"], ["coating surface", f(T1) + " K"], ["metal hot side", f(T2) + " K"], ["metal cold side", f(T3) + " K"], ["share of ΔT in TBC", f(100 * Rs[1] / Rt, 3) + "%"]]);
+    UI.live("#lab1", T2 > 1200 ? "metal too hot!" : "metal OK");
+  });
+  UI.wire("#lab2", () => {
+    const k = UI.val("fk"), h = UI.val("fh"), D = UI.val("fD") / 1000, L = UI.val("fL") / 1000, tb = 100;
+    const P = Math.PI * D, Ac = Math.PI * D * D / 4, m = Math.sqrt(h * P / (k * Ac)), hk = h / (m * k), M = Math.sqrt(h * P * k * Ac) * tb;
+    const den = Math.cosh(m * L) + hk * Math.sinh(m * L);
+    const th = xx => tb * (Math.cosh(m * (L - xx)) + hk * Math.sinh(m * (L - xx))) / den;
+    const q = M * (Math.sinh(m * L) + hk * Math.cosh(m * L)) / den, Af = P * L + Ac;
+    const xs = UI.linspace(0, L, 120);
+    UI.plot("#plot2", { xlabel: "x (mm)", ylabel: "T (K)", xlim: [0, L * 1000], ylim: [295, 405], h: 300,
+      series: [{ x: xs.map(v => v * 1000), y: xs.map(v => 300 + th(v)), c: 1, width: 2.5 }], hlines: [{ y: 400, c: 6, label: "T_b" }, { y: 300, c: 6, label: "T_∞" }] });
+    UI.readout("#ro2", [["m", f(m) + " 1/m"], ["mL", f(m * L, 3)], ["q_f", f(q) + " W"], ["η_f", f(q / (h * Af * tb), 3)], ["ε_f", f(q / (h * Ac * tb), 3)], ["tip T", f(300 + th(L)) + " K"]]);
+    UI.live("#lab2", `η_f = ${f(q / (h * Af * tb), 3)}`);
+  });
+})();
+</script>
+<script src="../assets/js/module.js"></script>
+</body>
+</html>
