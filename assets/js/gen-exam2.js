@@ -192,6 +192,7 @@
     const Fs = F / (1 + al), tsfc = f / F * 1e6; // g/(kN·s)
     return { u0, Tt0, pt0, Tt2, pt2, Tt3, pt3, f, pt4, Tt13, pt13, Tt5, pt5, T9, u9, u19, F, Fs, tsfc };
   }
+  root.PH.engine = engine;
   function tjSpec(fan) {
     const alt = R.pick([0, 3, 6, 9, 11]), [T0, p0] = atm[alt], M0 = rnd(pickf(0, 0.9, 0.05), 2);
     const ideal = Math.random() < 0.35;

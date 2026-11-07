@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 1 · Compressible & Internal Flow · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="lessons" data-lesson="module1">
+<main>
+<div class="prose">
+  <div class="eyebrow">Module 1 · Exam 1 · Lectures 1–5</div>
+  <h1>Compressible &amp; Internal Flow</h1>
+  <p class="lead">Every propulsion device is a duct: the inlet slows the air, the combustor heats it, the nozzle speeds it up. This module gives you the four idealized duct flows, each changing one thing at a time: area (isentropic, C1), a shock (C2), friction (Fanno, C3) and heat (Rayleigh, C4). It ends with the property-change reasoning that J1 tests. Each standard section ends with a drill that only writes problems for that standard.</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#review">Review: thermo, COE and momentum (Lecture 1)</a></li>
+    <li><a href="#c1">C1 · Isentropic flow and nozzles</a></li>
+    <li><a href="#c2">C2 · Normal shocks in nozzles</a></li>
+    <li><a href="#c3">C3 · Fanno flow (friction)</a></li>
+    <li><a href="#c4">C4 · Rayleigh flow (heat addition)</a></li>
+    <li><a href="#j1">J1 · Predicting property changes</a></li>
+  </ol></nav>
+
+  <h2 id="review"><span class="sec">Lecture 1</span>Review: thermo, COE and momentum</h2>
+  <p><b>Be bilingual.</b> Work problems in the unit system they are given in. In US units, mass is lbm and force is lbf, linked by \(g_c = 32.174\) lbm·ft/(lbf·s²). A 156 lbm person weighs 156 lbf on Earth, and \(156/32.174 = 4.85\) slug. Temperatures: \(T[\text{°R}] = 1.8\,T[\text{K}]\), and absolute temperatures always go in the equations.</p>
+  <p><b>Ideal gas.</b> \(p = \rho RT\), \(R = R_u/\mathcal M\) (air: 287 J/kg·K = 53.35 ft·lbf/lbm·°R), \(c_p = \gamma R/(\gamma - 1)\), \(a = \sqrt{\gamma RT}\). With constant specific heats and \(h = 0\) at \(T = 0\), \(h = c_pT\). Only <i>changes</i> in enthalpy matter. The ideal-gas model is best at low density and fails near the critical point; at very high \(T\) the gas dissociates and ionizes (use CoolProp or NIST data).</p>
+  <p><b>Conservation of energy, open system:</b> \(\dfrac{dE}{dt} = \dot Q - \dot W + \sum\dot m_{in}h_{t,in} - \sum\dot m_{out}h_{t,out}\), with \(h_t = h + V^2/2\). In propulsion the kinetic energy is never negligible, so always use stagnation enthalpy.</p>
+  <table class="data"><thead><tr><th>Component (steady, adiabatic unless heated)</th><th>\(h_t\)</th><th>\(p_t\)</th></tr></thead><tbody>
+    <tr><td>Diffuser / inlet</td><td>constant</td><td>falls (losses)</td></tr>
+    <tr><td>Compressor or fan (work in)</td><td>rises</td><td>rises</td></tr>
+    <tr><td>Combustor (heat in)</td><td>rises</td><td>falls slightly</td></tr>
+    <tr><td>Turbine (work out)</td><td>falls</td><td>falls</td></tr>
+    <tr><td>Nozzle</td><td>constant</td><td>falls (losses)</td></tr>
+  </tbody></table>
+  <p><b>Isentropic processes and efficiencies.</b> For an ideal gas with constant \(c_p\): \(T_2/T_1 = (p_2/p_1)^{(\gamma-1)/\gamma}\). Real compressors need more work than isentropic ones and real turbines deliver less: \(\eta_c = (h_{t3s} - h_{t2})/(h_{t3} - h_{t2})\), \(\eta_t = (h_{t4} - h_{t5})/(h_{t4} - h_{t5s})\). On a T–s diagram the real process always moves to the right (entropy rises).</p>
+  <p><b>Linear momentum gives thrust.</b> For a control volume cutting through the engine mounts, \(F = \sum\dot m_eu_e + (p_e - p_a)A_e - \sum\dot m_iu_i - (p_i - p_a)A_i\). For a rocket (no inlet) this is \(F = \dot mu_e + (p_e - p_a)A_e\).</p>
+  <p><b>Mixtures.</b> Mole fractions \(x_i = n_i/n = p_i/p\) (Dalton), mass fractions \(mf_i = x_i\mathcal M_i/\mathcal M\), \(\mathcal M = \sum x_i\mathcal M_i\), \(\bar c_p = \sum x_i\bar c_{p,i}\). Molecular weight and \(\gamma\) are the tricky ones: average the molar heat capacities, then form \(\gamma\).</p>
+
+  <h2 id="c1"><span class="sec">C1</span>Isentropic flow and nozzles</h2>
+  <p>Mach number \(M = V/a\) sorts the regimes: incompressible below about 0.3, subsonic compressible to 0.8, transonic 0.8–1.2, supersonic to 5, hypersonic beyond. Subsonic flow can "hear" downstream disturbances; supersonic flow cannot.</p>
+  <p><b>Stagnation properties</b> are what you get by bringing the flow to rest isentropically. For a calorically perfect gas:</p>
+  $$\frac{T_t}{T} = 1 + \frac{\gamma-1}{2}M^2,\qquad \frac{p_t}{p} = \left(\frac{T_t}{T}\right)^{\frac{\gamma}{\gamma-1}},\qquad \frac{\rho_t}{\rho} = \left(\frac{T_t}{T}\right)^{\frac1{\gamma-1}}.$$
+  <p>\(T_t\) is constant whenever the flow is adiabatic with no work (even through a shock); \(p_t\) is constant only if the flow is also reversible. The incompressible \(p_0 = p + \tfrac12\rho V^2\) from AAE 333 is the low-Mach limit of the second relation.</p>
+  <p><b>Area–velocity relation.</b> Combining mass, energy, the Gibbs equation and the sound speed gives</p>
+  $$\frac{dA}{A} = (M^2 - 1)\frac{dV}{V}.$$
+  <p>Subsonic flow speeds up in a converging duct; supersonic flow speeds up in a diverging duct; \(M = 1\) can occur only where \(dA = 0\), at a throat. To go supersonic, you need a converging–diverging nozzle.</p>
+  <p><b>Critical state and choking.</b> Call the sonic state *. For \(\gamma = 1.4\): \(T^*/T_t = 0.8333\), \(p^*/p_t = 0.5283\). The area–Mach relation and the mass flow are</p>
+  $$\frac{A}{A^*} = \frac1M\left[\frac{2}{\gamma+1}\left(1 + \frac{\gamma-1}{2}M^2\right)\right]^{\frac{\gamma+1}{2(\gamma-1)}},\qquad \dot m = \frac{p_tA}{\sqrt{RT_t}}\frac{\sqrt\gamma\,M}{\left(1 + \frac{\gamma-1}{2}M^2\right)^{\frac{\gamma+1}{2(\gamma-1)}}}.$$
+  <p>Each \(A/A^* &gt; 1\) has two Mach numbers (for example, 1.6875 gives 0.372 or 2.0). Geometry and back pressure decide which one occurs. Once the throat is choked, \(\dot m = 0.6847\,p_tA^*/\sqrt{RT_t}\) (for γ = 1.4) and does not depend on the back pressure.</p>
+  <p><b>Back pressure.</b> A subsonic exit always has \(p_e = p_b\). A converging nozzle chokes when \(p_b \le p^* = 0.528p_t\); then \(p_e = p^*\), not \(p_b\). A C-D nozzle passes through these regimes as \(p_b\) falls: subsonic everywhere, then choked with a shock inside, then a shock at the exit, then overexpanded (\(p_e &lt; p_b\), oblique shocks outside), then perfectly expanded (\(p_e = p_b\), the design point), then underexpanded (\(p_e &gt; p_b\); always true in space).</p>
+</div>
+
+<section class="lab" id="lab1">
+  <div class="lab-head"><span class="num">Interactive 1</span><span class="title">C-D nozzle: what does the back pressure do?</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="nE">Exit area ratio A<sub>e</sub>/A<sub>t</sub> = <output for="nE"></output></label><input type="range" id="nE" min="1.2" max="5" step="0.05" value="2.5" data-dec="2"></div>
+    <div class="ctl"><label for="nB">Back pressure p<sub>b</sub>/p<sub>t</sub> = <output for="nB"></output></label><input type="range" id="nB" min="0.02" max="1" step="0.002" value="0.6" data-dec="3"></div>
+    <div class="presets"><span>Try</span>
+      <button data-preset='{"nE":2.5,"nB":0.98}'>barely flowing</button><button data-preset='{"nE":2.5,"nB":0.7}'>shock inside</button>
+      <button data-preset='{"nE":2.5,"nB":0.3}'>overexpanded</button><button data-preset='{"nE":2.5,"nB":0.0590}'>design point</button><button data-preset='{"nE":2.5,"nB":0.02}'>underexpanded</button></div>
+    <div id="ro1" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot1"></div><figcaption>Static pressure p/p<sub>t</sub> along the nozzle (throat at x = 1). The dashed lines show the three critical back pressures for this area ratio.</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <h3>Worked example (Lecture 2)</h3>
+  <p>Air in a converging nozzle has \(M_1 = 0.52\), \(T_1 = 40\)°F = 499.7 °R, \(p_1 = 60\) psia, \(A_1 = 0.013\) ft², and \(p_b = 30\) psia. Then \(p_t = 60(1.2035) = 72.2\) psia, so \(p^* = 0.5283(72.2) = 38.1\) psia &gt; 30 psia. The nozzle is <b>choked</b>: \(M_e = 1\), \(p_e = 38.1\) psia ≠ \(p_b\), and \(A_e = A^* = A_1/(A/A^*)_{0.52} = 0.013/1.3034 = 0.00997\) ft².</p>
+  <div data-drill="C1"></div>
+
+  <h2 id="c2"><span class="sec">C2</span>Normal shocks in nozzles</h2>
+  <p>In the shock's frame the flow is steady and adiabatic but irreversible, and the shock is so thin (about 100 nm) that \(A\) is constant. Mass, momentum and energy across it give the jump relations, which depend only on \(M_1\) and \(\gamma\):</p>
+  $$M_2^2 = \frac{1 + \frac{\gamma-1}{2}M_1^2}{\gamma M_1^2 - \frac{\gamma-1}{2}},\quad \frac{p_2}{p_1} = 1 + \frac{2\gamma}{\gamma+1}(M_1^2 - 1),\quad \frac{\rho_2}{\rho_1} = \frac{(\gamma+1)M_1^2}{2 + (\gamma-1)M_1^2},\quad \frac{T_2}{T_1} = \frac{p_2/p_1}{\rho_2/\rho_1}.$$
+  <p>Across a shock: M, V fall; p, T, ρ, s rise; \(T_t\) is constant; \(p_t\) falls, with \(p_{t2}/p_{t1} = e^{-\Delta s/R}\). Shocks happen only in supersonic flow: a "subsonic shock" would destroy entropy. Because \(\dot m\) and \(T_t\) are unchanged but \(p_t\) drops, the reference area grows: \(A_2^*/A_1^* = p_{t1}/p_{t2} &gt; 1\).</p>
+  <p><b>Shock in a C-D nozzle: the recipe.</b> (1) Upstream of the shock, use \(A^*_1 = A_t\) on the supersonic branch to get \(M_1\). (2) Jump across it: \(M_2\), \(p_{t2}/p_{t1}\). (3) Downstream, the flow is isentropic again with a new reference \(A^*_2 = A_s/(A/A^*)_{M_2}\). (4) At the exit, \(A_e/A^*_2\) on the <b>subsonic</b> branch gives \(M_e\), and \(p_e = p_{t2}/(p_t/p)_{M_e} = p_b\). To <i>find</i> a shock from a known exit state, run the recipe backwards: exit → \(A^*_2\) → \(M_2\) at the shock area → \(M_1\) from the shock table.</p>
+  <h3>Worked example (practice set)</h3>
+  <p>A shock sits at \(A = 0.09\) m² with \(M_e = 0.35\) at \(A_e = 0.13\) m². Subsonic table: \((A/A^*)_{0.35} = 1.7780\), so \(A^*_2 = 0.0731\) m². At the shock, \(A/A^*_2 = 1.231\); subsonic branch gives \(M_2 \approx 0.567\); the shock table backwards gives \(M_1 \approx 2.07\).</p>
+  <div data-drill="C2"></div>
+
+  <h2 id="c3"><span class="sec">C3</span>Fanno flow (friction)</h2>
+  <p>Fanno flow is steady, adiabatic flow in a constant-area duct with wall friction: \(T_t\) is constant, entropy rises, and \(p_t\) falls. Momentum with the Darcy friction factor (\(\tau_w = f\rho V^2/8\)) leads to</p>
+  $$\frac{\bar f\,\ell^*}{D} = \frac{1 - M^2}{\gamma M^2} + \frac{\gamma+1}{2\gamma}\ln\frac{(\gamma+1)M^2}{2 + (\gamma-1)M^2},$$
+  <p>where \(\ell^*\) is the (possibly imaginary) length still needed to reach \(M = 1\). <b>Friction always drives the Mach number toward 1</b>: subsonic flow speeds up, cools and loses pressure; supersonic flow slows down, heats up and gains pressure. Between two stations, \(\bar fL/D = (\bar f\ell^*/D)_1 - (\bar f\ell^*/D)_2\). Property ratios to the Fanno * state:</p>
+  $$\frac{p}{p^*} = \frac1M\sqrt{\frac{\gamma+1}{2 + (\gamma-1)M^2}},\quad \frac{T}{T^*} = \frac{\gamma+1}{2 + (\gamma-1)M^2},\quad \frac{p_t}{p_t^*} = \frac1M\left[\frac{2}{\gamma+1}\left(1 + \frac{\gamma-1}{2}M^2\right)\right]^{\frac{\gamma+1}{2(\gamma-1)}}.$$
+  <p><b>Careful:</b> the Fanno * state is not the isentropic * state (the process is irreversible). Keep track of which table you are in. Watch which friction factor a problem uses: Darcy \(f\) = 4 × Fanning \(f\); the equation sheet uses Darcy.</p>
+  <p><b>Too long a duct.</b> If \(L &gt; \ell^*\), subsonic inflow can't keep its inlet state, so the mass flow drops (the inlet Mach number falls). Supersonic inflow develops a normal shock in the duct that moves upstream as \(L\) grows, possibly into the nozzle feeding it.</p>
+  <div data-drill="C3"></div>
+
+  <h2 id="c4"><span class="sec">C4</span>Rayleigh flow (heat addition)</h2>
+  <p>Rayleigh flow is frictionless, constant-area flow with heat transfer. The heat changes the stagnation temperature directly, \(q = c_p(T_{t2} - T_{t1})\), and the * state is where heating would bring \(M\) to 1:</p>
+  $$\frac{p}{p^*} = \frac{1+\gamma}{1 + \gamma M^2},\quad \frac{T}{T^*} = \left[\frac{(1+\gamma)M}{1 + \gamma M^2}\right]^2,\quad \frac{T_t}{T_t^*} = \frac{2(\gamma+1)M^2\left(1 + \frac{\gamma-1}{2}M^2\right)}{(1 + \gamma M^2)^2},\quad \frac{p_t}{p_t^*} = \frac{1+\gamma}{1+\gamma M^2}\left[\frac{2}{\gamma+1}\left(1 + \frac{\gamma-1}{2}M^2\right)\right]^{\frac{\gamma}{\gamma-1}}.$$
+  <p><b>Heating drives M toward 1; cooling drives it away.</b> Heat addition always costs stagnation pressure, and more so at higher Mach number, which is why burners are run at low Mach numbers. The recipe: \(T_{t1}\) from \(M_1\); \(T_t^* = T_{t1}/(T_t/T_t^*)_1\); \(T_{t2} = T_{t1} + q/c_p\); \((T_t/T_t^*)_2\) gives \(M_2\) on the same branch; ratios of table values give \(p_2\), \(T_2\), \(p_{t2}\).</p>
+  <p><b>Thermal choking.</b> The most heat a duct can take is \(q_{max} = c_p(T_t^* - T_{t1})\). Add more to a subsonic flow and the inlet slows down (a different Rayleigh line, less mass flow). That matters for afterburners and ramjet burners. Add more to a supersonic flow and a shock forms upstream (in the feeding nozzle), so the heated duct sees subsonic flow.</p>
+</div>
+
+<section class="lab" id="lab2">
+  <div class="lab-head"><span class="num">Interactive 2</span><span class="title">All four tables at one Mach number</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="mM">Mach number M = <output for="mM"></output></label><input type="range" id="mM" min="0.05" max="4" step="0.01" value="0.5" data-dec="2"></div>
+    <div class="ctl"><label for="mG">γ = <output for="mG"></output></label><input type="range" id="mG" min="1.1" max="1.67" step="0.01" value="1.4" data-dec="2"></div>
+    <p class="drag-hint">This replaces Tables 1–4 on the equation sheet. For inverse lookups use the <a href="../tools/gas-tables.html">gas tables calculator</a>.</p>
+  </div>
+  <div class="views"><figure><div id="tab2"></div></figure></div>
+</section>
+
+<div class="prose">
+  <div data-drill="C4"></div>
+
+  <h2 id="j1"><span class="sec">J1</span>Predicting property changes</h2>
+  <p>J1 asks ten "increase, decrease or stay the same" questions; you need 8 to meet it. Don't memorize the table below; rebuild it from three facts: (1) what is held constant (\(T_t\) if adiabatic, \(p_t\) and \(s\) if also reversible); (2) friction and heating push \(M\) toward 1, while cooling pushes it away; area change follows \(dA/A = (M^2-1)\,dV/V\); (3) at constant \(T_t\), faster means colder, and in a constant-area duct, \(\rho V\) is fixed, so faster means less dense.</p>
+  <table class="data"><thead><tr><th>Process</th><th>M</th><th>V</th><th>p</th><th>T</th><th>ρ</th><th>p<sub>t</sub></th><th>T<sub>t</sub></th><th>s</th></tr></thead><tbody>
+    <tr><td>Normal shock</td><td>↓</td><td>↓</td><td>↑</td><td>↑</td><td>↑</td><td>↓</td><td>—</td><td>↑</td></tr>
+    <tr><td>Fanno, M &lt; 1</td><td>↑</td><td>↑</td><td>↓</td><td>↓</td><td>↓</td><td>↓</td><td>—</td><td>↑</td></tr>
+    <tr><td>Fanno, M &gt; 1</td><td>↓</td><td>↓</td><td>↑</td><td>↑</td><td>↑</td><td>↓</td><td>—</td><td>↑</td></tr>
+    <tr><td>Rayleigh heating, M &lt; 1</td><td>↑</td><td>↑</td><td>↓</td><td>↑ then ↓*</td><td>↓</td><td>↓</td><td>↑</td><td>↑</td></tr>
+    <tr><td>Rayleigh heating, M &gt; 1</td><td>↓</td><td>↓</td><td>↑</td><td>↑</td><td>↑</td><td>↓</td><td>↑</td><td>↑</td></tr>
+    <tr><td>Isentropic, converging, M &lt; 1</td><td>↑</td><td>↑</td><td>↓</td><td>↓</td><td>↓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Isentropic, diverging, M &gt; 1</td><td>↑</td><td>↑</td><td>↓</td><td>↓</td><td>↓</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody></table>
+  <p style="font-size:.9rem;color:var(--muted)">* Subsonic heating raises T for M &lt; 1/√γ ≈ 0.845, then lowers it between 0.845 and 1. Swap the arrows for a converging supersonic or diverging subsonic duct, and for cooling.</p>
+  <div data-drill="J1"></div>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script>
+(function () {
+  const f = (x, d = 4) => (isFinite(x) ? (+x.toPrecision(d)).toString() : "—");
+  // ---------- Interactive 1: C-D nozzle ----------
+  UI.wire("#lab1", () => {
+    const eps = UI.val("nE"), pb = UI.val("nB"), Ai = 2.5;
+    const Msub = GD.M_AAs(eps, false), Msup = GD.M_AAs(eps, true);
+    const p1 = 1 / GD.ptp(Msub), p3 = 1 / GD.ptp(Msup), p2 = p3 * GD.NS.p(Msup);
+    const xs = UI.linspace(0, 2, 201), Ax = x => (x <= 1 ? Ai - (Ai - 1) * x : 1 + (eps - 1) * (x - 1));
+    let regime, prof, Me, pe, shockX = null;
+    if (pb >= 0.9999) { regime = "no flow (p_b = p_t)"; prof = xs.map(() => 1); Me = 0; pe = 1; }
+    else if (pb > p1) {
+      Me = GD.M_ptp(1 / pb); const As = eps / GD.AAs(Me);
+      prof = xs.map(x => 1 / GD.ptp(GD.M_AAs(Ax(x) / As, false))); pe = pb; regime = "subsonic everywhere (not choked)";
+    } else if (pb > p2) {
+      const exitP = As => { const M1 = GD.M_AAs(As, true), M2 = GD.NS.M2(M1), A2 = As / GD.AAs(M2); return GD.NS.pt(M1) / GD.ptp(GD.M_AAs(eps / A2, false)); };
+      const As = GD.solve(A => exitP(A) - pb, 1.0001, eps);
+      const M1 = GD.M_AAs(As, true), M2 = GD.NS.M2(M1), A2 = As / GD.AAs(M2), ptr = GD.NS.pt(M1);
+      shockX = 1 + (As - 1) / (eps - 1);
+      prof = xs.map(x => x <= 1 ? 1 / GD.ptp(GD.M_AAs(Ax(x), false)) : x < shockX ? 1 / GD.ptp(GD.M_AAs(Ax(x), true)) : ptr / GD.ptp(GD.M_AAs(Ax(x) / A2, false)));
+      Me = GD.M_AAs(eps / A2, false); pe = pb; regime = `choked, normal shock inside at A/A_t = ${f(As, 3)} (M₁ = ${f(M1, 3)})`;
+    } else {
+      prof = xs.map(x => 1 / GD.ptp(GD.M_AAs(Ax(x), x > 1))); Me = Msup; pe = p3;
+      regime = Math.abs(pb - p3) / p3 < 0.03 ? "perfectly expanded (design point)" : pb > p3 ? "overexpanded: oblique shocks outside the exit" : "underexpanded: expansion waves outside the exit";
+    }
+    UI.plot("#plot1", { xlabel: "x (throat at 1)", ylabel: "p / p_t", xlim: [0, 2], ylim: [0, 1.05], h: 320,
+      series: [{ x: xs, y: prof, c: 1, width: 2.5 }],
+      hlines: [{ y: p1, c: 6, label: "1st critical" }, { y: p2, c: 6, label: "shock at exit" }, { y: p3, c: 6, label: "design" }, { y: pb, c: 4, label: "p_b" }],
+      vlines: shockX ? [{ x: shockX, c: 4, label: "shock" }] : [] });
+    UI.readout("#ro1", [["regime", regime], ["exit Mach", f(Me, 3)], ["p_e / p_t", f(pe, 3)], ["critical p_b/p_t", `${f(p1, 3)} · ${f(p2, 3)} · ${f(p3, 3)}`]]);
+    UI.live("#lab1", regime.split(":")[0].split(",")[0]);
+  });
+  // ---------- Interactive 2: all tables ----------
+  UI.wire("#lab2", () => {
+    const M = UI.val("mM"), g = UI.val("mG");
+    const rows = [{ sub: "Isentropic" }, ["T<sub>t</sub>/T", GD.TtT(M, g)], ["p<sub>t</sub>/p", GD.ptp(M, g)], ["A/A*", GD.AAs(M, g)]];
+    if (M > 1) rows.push({ sub: "Normal shock (M is M₁)" }, ["M₂", GD.NS.M2(M, g)], ["p₂/p₁", GD.NS.p(M, g)], ["T₂/T₁", GD.NS.T(M, g)], ["p<sub>t2</sub>/p<sub>t1</sub>", GD.NS.pt(M, g)]);
+    rows.push({ sub: "Fanno" }, ["f̄ℓ*/D", GD.FA.fL(M, g)], ["p/p*", GD.FA.p(M, g)], ["T/T*", GD.FA.T(M, g)], ["p<sub>t</sub>/p<sub>t</sub>*", GD.FA.pt(M, g)],
+      { sub: "Rayleigh" }, ["p/p*", GD.RA.p(M, g)], ["T/T*", GD.RA.T(M, g)], ["T<sub>t</sub>/T<sub>t</sub>*", GD.RA.Tt(M, g)], ["p<sub>t</sub>/p<sub>t</sub>*", GD.RA.pt(M, g)]);
+    UI.table("#tab2", ["Ratio", "Value"], rows.map(r => r.sub ? r : [r[0], f(r[1], 5)]));
+    UI.live("#lab2", `M = ${M.toFixed(2)}`);
+  });
+})();
+</script>
+<script src="../assets/js/module.js"></script>
+</body>
+</html>
