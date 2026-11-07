@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice · Learn Propulsion</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="./" data-section="practice">
+<main>
+<div class="prose">
+  <div class="eyebrow">Practice</div>
+  <h1>Endless practice</h1>
+  <p class="lead">Every problem type on the site in one place, tagged by course standard. Choose an exam, pick the topics you want (all are on by default), then solve, check, read the worked solution, and get a new problem. Your accuracy on the last 20 attempts of each topic is shown below, so you can see what still needs work.</p>
+  <div class="ctl inline" style="font-family:var(--sans);margin:1rem 0"><span>Exam&nbsp;</span>
+    <div class="seg" id="ex" data-value="1"><button data-value="1" aria-pressed="true">Exam 1</button><button data-value="2" aria-pressed="false">Exam 2</button><button data-value="3" aria-pressed="false">Exam 3</button><button data-value="0" aria-pressed="false">Everything</button></div></div>
+  <div class="note"><b>Entering answers</b>Type numbers or expressions such as <code>1.234</code>, <code>2.5e5</code>, <code>300*1.2</code> or <code>sqrt(1.4*287*300)</code>. Use the units the question asks for. Answers within about 1% are accepted, so values read from the gas tables are fine. Press Enter to check.</div>
+</div>
+<div id="qz"></div>
+<div class="prose">
+  <h2 id="mastery">Your progress</h2>
+  <p>Saved in this browser only. <button type="button" id="reset">Reset progress</button></p>
+</div>
+<div id="mast"></div>
+</main>
+<script src="assets/js/cx.js"></script>
+<script src="assets/js/gd.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/quiz.js"></script>
+<script src="assets/js/gen-exam1.js"></script>
+<script src="assets/js/gen-exam2.js"></script>
+<script src="assets/js/gen-exam3.js"></script>
+<script>
+(function () {
+  const seg = document.getElementById("ex");
+  const titles = { 1: "Exam 1 · all topics", 2: "Exam 2 · all topics", 3: "Exam 3 · all topics", 0: "Whole course" };
+  let m;
+  function go() {
+    const ex = +seg.dataset.value;
+    const ids = QZ.ORDER.filter(id => !ex || QZ.TOPICS[id].exam === ex);
+    m = QZ.mastery("#mast", ids);
+    QZ.mount("#qz", { topics: ids, title: titles[ex], groupBy: true, onAnswer: () => m.render() });
+    UI.store.set("practiceExam", String(ex));
+  }
+  const saved = UI.store.get("practiceExam", "1");
+  seg.querySelectorAll("button").forEach(b => {
+    b.setAttribute("aria-pressed", b.dataset.value === saved ? "true" : "false");
+    b.addEventListener("click", () => { seg.dataset.value = b.dataset.value; seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); go(); });
+  });
+  seg.dataset.value = saved;
+  go();
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!confirm("Erase your saved practice record on this device?")) return;
+    try { Object.keys(localStorage).filter(k => k.startsWith("pp.qz.")).forEach(k => localStorage.removeItem(k)); } catch (e) { /* storage unavailable */ }
+    m.render();
+  });
+})();
+</script>
+</body>
+</html>

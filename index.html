@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn Propulsion · AAE 337</title>
+<meta name="description" content="Interactive study site for AAE 33700 Aerospace Propulsion Foundations at Purdue: lessons, live figures, calculators and endless auto-generated practice problems for every course standard.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="./">
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">AAE 33700 · Aerospace Propulsion Foundations · Purdue</div>
+        <h1>Learn Propulsion</h1>
+        <p class="lead">Interactive lessons, calculators and problem generators for AAE 337, organized by exam and by course standard. Each lesson explains the ideas in the course notation and has live figures to experiment with. It ends with a generator that writes a new standard-style problem every time you finish one, checks your answer, and shows a worked solution.</p>
+        <p class="lead" style="font-size:.95rem">Exam 1: compressible and internal flow (C1–C4, J1). Exam 2: combustion and airbreathing cycles (C5–C9, J2). Exam 3: rockets and heat transfer (C10–C13, J3). Then the synthesis final, which mixes them all.</p>
+        <p><a class="pill" href="practice.html" style="font-size:1rem;padding:.4rem .9rem">Start practicing →</a></p>
+      </div>
+    </div>
+  </section>
+  <div class="prose">
+    <h2 id="standards">Standards tracker</h2>
+    <p>Your grade is the number of standards you meet: 10 Foundational, 6 Applied and the E1 ethics pass-gate. Tick each one when you have it on a graded attempt; the ticks are saved in this browser, and the grade estimate below follows the table from Lecture 1. Each standard links to the place to practice it.</p>
+    <div id="stds"></div>
+    <p id="grade" class="note"></p>
+  </div>
+  <div class="prose"><h2 id="lessons">Lessons</h2></div>
+  <div id="lessonCards"></div>
+  <div class="prose"><h2 id="exams">Exam reviews</h2></div>
+  <div id="examCards"></div>
+  <div class="prose"><h2 id="tools">Tools</h2><p>Calculators that replace the gas tables and let you check a whole cycle or rocket in one go.</p></div>
+  <div id="toolCards"></div>
+</main>
+<script src="assets/js/ui.js"></script>
+<script>
+(function () {
+  UI.cards("#lessonCards", "lessons"); UI.cards("#examCards", "exams"); UI.cards("#toolCards", "tools");
+  const S = [
+    ["Module 1 · Compressible & internal flow"],
+    ["C1", "F", "Analyze isentropic flow to relate area, Mach number, and stagnation/static state.", "lessons/isentropic.html"],
+    ["C2", "F", "Analyze a nozzle flow containing a normal shock, and its effect on the downstream flow.", "lessons/shocks.html"],
+    ["C3", "F", "Analyze flow with friction (Fanno) to relate duct geometry and flow conditions.", "lessons/fanno.html"],
+    ["C4", "F", "Analyze flow with heat addition (Rayleigh) to relate heat, Mach number, and properties.", "lessons/rayleigh.html"],
+    ["J1", "F", "Predict and justify how flow properties change across a given process.", "lessons/trends.html"],
+    ["Module 2 · Combustion"],
+    ["C5", "F", "Balance a combustion reaction and relate composition, air–fuel ratio, and equivalence ratio.", "lessons/combustion.html"],
+    ["C6", "F", "Use an energy balance to relate combustor temperatures, heat transfer, and equivalence ratio.", "lessons/combustion.html#energy"],
+    ["C7", "F", "Use chemical equilibrium to relate product composition to pressure and temperature.", "lessons/equilibrium.html"],
+    ["Module 3 · Airbreathing cycles"],
+    ["C8", "A", "Perform a station-by-station analysis of an airbreathing cycle.", "lessons/turbojet.html"],
+    ["C9", "A", "Compute cycle performance metrics (specific thrust, TSFC, specific power).", "lessons/brayton.html#perf"],
+    ["J2", "A", "Assess an airbreathing cycle design trade-off.", "lessons/turbofan.html#tradeoffs"],
+    ["Module 4 · Rocket propulsion"],
+    ["C10", "A", "Size a rocket engine by relating chamber conditions, nozzle geometry, and performance.", "lessons/rockets.html"],
+    ["C11", "A", "Analyze a solid rocket motor to relate propellant properties, grain geometry, and thrust–time behavior.", "lessons/solids.html"],
+    ["J3", "A", "Evaluate a propulsion design choice against a stated performance criterion.", "lessons/rockets.html#j3"],
+    ["Module 5 · Heat transfer"],
+    ["C12", "F", "Select and apply an appropriate convective correlation.", "lessons/heat-transfer.html#convection"],
+    ["C13", "F", "Apply conduction, convection, and fin relations.", "lessons/heat-transfer.html"],
+    ["Ethics"],
+    ["E1", "E", "Identify my core values and use them to reason through an ethical dilemma in aerospace engineering.", "exams/final.html#e1"],
+  ];
+  const cls = { F: "Foundational", A: "Applied", E: "Pass-gate" };
+  let html = "";
+  S.forEach(r => {
+    if (r.length === 1) { html += `${html ? "</ul>" : ""}<h3>${r[0]}</h3><ul class="checklist std">`; return; }
+    const on = UI.store.get("std." + r[0], "0") === "1";
+    html += `<li><label><input type="checkbox" data-id="${r[0]}" data-c="${r[1]}" ${on ? "checked" : ""}> <b>${r[0]}</b> <span class="pill">${cls[r[1]]}</span> I can ${r[2].charAt(0).toLowerCase() + r[2].slice(1)}</label> <a href="${r[3]}">practice →</a></li>`;
+  });
+  document.getElementById("stds").innerHTML = html + "</ul>";
+  const TABLE = [["A+", 10, 6], ["A", 8, 6], ["B+", 8, 5], ["B+", 7, 6], ["B", 7, 5], ["C+", 7, 4], ["C+", 6, 5], ["C", 6, 4], ["D+", 6, 3], ["D+", 5, 4], ["D", 5, 3]];
+  function grade() {
+    const box = [...document.querySelectorAll("#stds input")];
+    const F = box.filter(b => b.dataset.c === "F" && b.checked).length, A = box.filter(b => b.dataset.c === "A" && b.checked).length;
+    const E = box.some(b => b.dataset.c === "E" && b.checked);
+    const hit = TABLE.find(([, f, a]) => F >= f && A >= a);
+    document.getElementById("grade").innerHTML = `<b>Grade estimate</b>Foundational ${F}/10 · Applied ${A}/6 · E1 ${E ? "met" : "not yet"}. ` +
+      (E && hit ? `Base grade: <b>${hit[0]}</b>, before the synthesis exam moves it up one level (85%+), keeps it (70–85%) or moves it down (below 70%).` : E ? "Below a D so far: keep going." : "E1 is required for any passing grade.");
+  }
+  document.querySelectorAll("#stds input").forEach(b => b.addEventListener("change", () => { UI.store.set("std." + b.dataset.id, b.checked ? "1" : "0"); grade(); }));
+  grade();
+})();
+</script>
+</body>
+</html>
