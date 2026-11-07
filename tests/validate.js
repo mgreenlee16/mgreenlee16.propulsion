@@ -8,7 +8,8 @@ let bad = 0;
 for (const id of QZ.ORDER) {
   for (let i = 0; i < 300; i++) {
     let p;
-    try { p = QZ.TOPICS[id].gen(QZ.R); } catch (e) { console.log(id, "THROW", e.message); bad++; break; }
+    try { for (let k = 0; k < 20 && !p; k++) p = QZ.TOPICS[id].gen(QZ.R); } catch (e) { console.log(id, "THROW", e.message); bad++; break; }
+    if (!p) { console.log(id, "null 20 times"); bad++; break; }
     if (p.fields) for (const f of p.fields) if (!isFinite(f.ans)) { console.log(id, "non-finite", f.label, p.q.slice(0, 200)); bad++; i = 1e9; break; }
     if (p.choices && (p.answer < 0 || p.choices.length < 2)) { console.log(id, "bad mc"); bad++; break; }
     if (/NaN|undefined/.test(p.q + p.sol)) { console.log(id, "NaN/undefined in text"); bad++; break; }
