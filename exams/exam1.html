@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam 1 Review · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="exams" data-exam="1">
+<main>
+<div class="prose">
+  <div class="eyebrow">Exam 1 · evening, Sep 17 · Module 1</div>
+  <h1>Exam 1 Review</h1>
+  <p class="lead">Exam 1 offers C1–C4 and J1: isentropic flow, normal shocks in nozzles, Fanno and Rayleigh flow, and property-change predictions. Each standard is graded on its own, so use the drill links to practice the one you are about to attempt, then use the practice exam below to mix them.</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#standards">Standards on this exam</a></li>
+    <li><a href="#notes">Key relations and common mistakes</a></li>
+    <li><a href="#exam">Practice exam generator</a></li>
+    <li><a href="#progress">Your progress</a></li>
+  </ol></nav>
+  <h2 id="standards"><span class="sec">Part 1</span>Standards on this exam</h2>
+  <p>Tick a standard once you have met it on a graded attempt (the ticks are shared with the home page tracker). Each one links to its own drill and mock attempt.</p>
+  <div id="stdlist"></div>
+  <h2 id="notes"><span class="sec">Part 2</span>Key relations and common mistakes</h2>
+  <h3>Key relations</h3>
+<ul>
+<li>\(T_t/T = 1 + \frac{\gamma-1}{2}M^2\), \(p_t/p = (T_t/T)^{\gamma/(\gamma-1)}\); \(T_t\) constant if adiabatic, \(p_t\) constant only if also reversible.</li>
+<li>\(dA/A = (M^2 - 1)\,dV/V\); \(M = 1\) only at a throat; \(A/A^*\) has a subsonic and a supersonic root.</li>
+<li>Choked: \(\dot m = 0.6847\,p_tA^*/\sqrt{RT_t}\) (γ = 1.4); converging nozzle chokes for \(p_b \le 0.5283p_t\).</li>
+<li>Shock: \(T_t\) constant, \(p_t\) falls, \(A^*_2 = A^*_1\,p_{t1}/p_{t2}\); the flow behind is subsonic.</li>
+<li>Fanno: \(\bar fL/D = (\bar f\ell^*/D)_1 - (\bar f\ell^*/D)_2\), friction drives M → 1. Rayleigh: \(q = c_p\Delta T_t\), heating drives M → 1, \(q_{max} = c_p(T_t^* - T_{t1})\).</li>
+</ul>
+<h3>Common mistakes</h3>
+<ul>
+<li>Using the back pressure as the exit pressure of a choked or supersonic exit. Only a subsonic exit matches \(p_b\).</li>
+<li>Picking the wrong branch of \(A/A^*\), or forgetting that \(A^*\) changes after a shock.</li>
+<li>Mixing isentropic * values with Fanno or Rayleigh * values: they are different states.</li>
+<li>Using Fanning instead of Darcy \(f\) (factor of 4), or °F instead of °R.</li>
+<li>Forgetting that heating also changes \(T_t\), so the Rayleigh * state is found from the inlet, not assumed.</li>
+</ul>
+  <h2 id="exam"><span class="sec">Part 3</span>Practice exam generator</h2>
+  <p>A random mix of this exam's problem types, graded together. For a standard-by-standard attempt, use the <a href="../standards.html">standards page</a>.</p>
+</div>
+<div id="examgen"></div>
+<div class="prose"><h2 id="progress"><span class="sec">Part 4</span>Your progress</h2></div>
+<div id="mast"></div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/exam.js"></script>
+</body>
+</html>

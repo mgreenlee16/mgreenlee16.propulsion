@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam 3 Review · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="exams" data-exam="3">
+<main>
+<div class="prose">
+  <div class="eyebrow">Exam 3 · evening, Nov 19 · Modules 4–5</div>
+  <h1>Exam 3 Review</h1>
+  <p class="lead">Exam 3 offers C10–C13 and J3: rocket sizing and performance, solid motor ballistics, design choices, convective correlations, and conduction, convection and fins. Note that convection and the heat-transfer applications lectures continue after Exam 3, so C12 and C13 may also be attempted at the December reassessments.</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#standards">Standards on this exam</a></li>
+    <li><a href="#notes">Key relations and common mistakes</a></li>
+    <li><a href="#exam">Practice exam generator</a></li>
+    <li><a href="#progress">Your progress</a></li>
+  </ol></nav>
+  <h2 id="standards"><span class="sec">Part 1</span>Standards on this exam</h2>
+  <p>Tick a standard once you have met it on a graded attempt (the ticks are shared with the home page tracker). Each one links to its own drill and mock attempt.</p>
+  <div id="stdlist"></div>
+  <h2 id="notes"><span class="sec">Part 2</span>Key relations and common mistakes</h2>
+  <h3>Key relations</h3>
+<ul>
+<li>\(\Delta v = g_0I_{sp}\ln MR\); \(m_p = m_{pl}\frac{MR-1}{MR - (MR-1)/\lambda}\), \(m_i = m_p(1-\lambda)/\lambda\).</li>
+<li>\(\dot m = p_cA_t/c^*\), \(F = C_Fp_cA_t\), \(I_{sp} = C_Fc^*/g_0\); \(C_F = C_{F,vac} - (p_a/p_c)\varepsilon\); \(I_{sp} = I_{sp,vac} - p_aA_e/(\dot mg_0)\).</li>
+<li>\(c^* = \sqrt{\bar RT_c/(\mathcal M\gamma)}\,(2/(\gamma+1))^{-(\gamma+1)/(2(\gamma-1))}\).</li>
+<li>Solid: \(r_b = ap_c^n\), \(p_c = (a\rho_pA_bc^*/A_t)^{1/(1-n)}\).</li>
+<li>Resistances \(L/kA\), \(\ln(r_2/r_1)/(2\pi kL)\), \(1/hA\); fins \(m^2 = hP/kA_c\), \(q_f = \sqrt{hPkA_c}\,\theta_b\tanh mL\), \(\eta_o = 1 - \frac{NA_f}{A_t}(1 - \eta_f)\).</li>
+<li>\(T_{aw} = T_g(1 + r\frac{\gamma-1}{2}M^2)\), \(r = Pr^{1/3}\); internal flow \(\frac{T_s - T_{m,o}}{T_s - T_{m,i}} = e^{-\bar hPL/\dot mc_p}\).</li>
+</ul>
+<h3>Common mistakes</h3>
+<ul>
+<li>Using the air γ (1.4) for rocket exhaust; computing \(p_e/p_c\) on the subsonic branch.</li>
+<li>Units of \(a\) in St. Robert's law (cm/s·MPa⁻ⁿ is not SI).</li>
+<li>Choosing a correlation without computing Re first, or using \(T_g\) instead of \(T_{aw}\) for high-speed heat flux.</li>
+<li>Fin perimeter and area mix-ups: \(A_c = \pi D^2/4\) and \(P = \pi D\) for a pin.</li>
+</ul>
+  <h2 id="exam"><span class="sec">Part 3</span>Practice exam generator</h2>
+  <p>A random mix of this exam's problem types, graded together. For a standard-by-standard attempt, use the <a href="../standards.html">standards page</a>.</p>
+</div>
+<div id="examgen"></div>
+<div class="prose"><h2 id="progress"><span class="sec">Part 4</span>Your progress</h2></div>
+<div id="mast"></div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam3.js"></script>
+<script src="../assets/js/exam.js"></script>
+</body>
+</html>

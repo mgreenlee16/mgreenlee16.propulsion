@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam 2 Review · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="exams" data-exam="2">
+<main>
+<div class="prose">
+  <div class="eyebrow">Exam 2 · evening, Oct 28 · Modules 2–3</div>
+  <h1>Exam 2 Review</h1>
+  <p class="lead">Exam 2 offers C5–C9 and J2: combustion stoichiometry, combustor energy balances, chemical equilibrium, airbreathing cycle analysis and performance metrics, and design trade-offs. Exam 1 standards you still need are offered again.</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#standards">Standards on this exam</a></li>
+    <li><a href="#notes">Key relations and common mistakes</a></li>
+    <li><a href="#exam">Practice exam generator</a></li>
+    <li><a href="#progress">Your progress</a></li>
+  </ol></nav>
+  <h2 id="standards"><span class="sec">Part 1</span>Standards on this exam</h2>
+  <p>Tick a standard once you have met it on a graded attempt (the ticks are shared with the home page tracker). Each one links to its own drill and mock attempt.</p>
+  <div id="stdlist"></div>
+  <h2 id="notes"><span class="sec">Part 2</span>Key relations and common mistakes</h2>
+  <h3>Key relations</h3>
+<ul>
+<li>\(a_{st} = x + y/4\) for \(\mathrm{C_xH_y}\) with \(\mathrm{O_2 + 3.76N_2}\) (137.3 kg per kmol O₂); \(\phi = FA/FA_{st} = AF_{st}/AF\).</li>
+<li>\(\sum_R n\bar h = \sum_P n\bar h + Q_{out}\) with \(\bar h = \bar h_f^\circ + \Delta\bar h\); LHV \(= -\Delta H_{rxn}^\circ/M_{fuel}\) with gaseous water.</li>
+<li>Burner: \(f = c_p(T_{t4} - T_{t3})/(\eta_bQ_R - c_pT_{t4})\).</li>
+<li>\(K_p = \frac{\prod n_P^\nu}{\prod n_R^\nu}\left(\frac{p/p_0}{n_{tot}}\right)^{\Delta n}\), a function of T only; reverse → 1/K, scale by n → Kⁿ.</li>
+<li>Turbine balance \((1+f)(T_{t4} - T_{t5}) = (T_{t3} - T_{t2}) + \alpha(T_{t13} - T_{t2})\); \(F/\dot m_0 = (1+f)u_9 - u_0 + \alpha(u_{19} - u_0)\); \(TSFC = \dot m_f/F\).</li>
+<li>\(\eta_{th} = \Delta\dot{KE}/(\dot m_fQ_R)\), \(\eta_p = Fu_0/\Delta\dot{KE}\), \(\eta_0 = \eta_{th}\eta_p\). Ideal ramjet: \(M_9 = M_0\).</li>
+</ul>
+<h3>Common mistakes</h3>
+<ul>
+<li>Forgetting the N₂ mass in AF, or writing excess O₂ for a rich mixture.</li>
+<li>Using HHV where the problem wants LHV, or forgetting the fuel's own \(\bar h_f^\circ\).</li>
+<li>Writing \(K_p\) with mole fractions but forgetting the \((p/n)^{\Delta n}\) factor, or using the table value for the reverse reaction.</li>
+<li>Dropping the \((1 + f)\) in the turbine balance or thrust; using \(T_9\) where \(T_{t9}\) belongs.</li>
+<li>Specific thrust per core air versus per total air for a turbofan: read which one is asked.</li>
+<li>US units: forgetting \(g_c\) when converting \(\dot m\,u\) to lbf.</li>
+</ul>
+  <h2 id="exam"><span class="sec">Part 3</span>Practice exam generator</h2>
+  <p>A random mix of this exam's problem types, graded together. For a standard-by-standard attempt, use the <a href="../standards.html">standards page</a>.</p>
+</div>
+<div id="examgen"></div>
+<div class="prose"><h2 id="progress"><span class="sec">Part 4</span>Your progress</h2></div>
+<div id="mast"></div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam2.js"></script>
+<script src="../assets/js/exam.js"></script>
+</body>
+</html>

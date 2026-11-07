@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthesis Final · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="exams">
+<main>
+<div class="prose">
+  <div class="eyebrow">Final exam period · all modules</div>
+  <h1>Synthesis Final</h1>
+  <p class="lead">The synthesis exam combines standards you have already been assessed on, with partial credit, and it does not tell you which relations apply: choosing them is part of the task. It contains nothing new. Your score moves your standards-based grade up one level (85% and above), keeps it (70–85%) or moves it down one level (below 70%).</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#how">How to attack a synthesis problem</a></li>
+    <li><a href="#drill">Synthesis problem generator</a></li>
+    <li><a href="#cumulative">Cumulative practice exam</a></li>
+    <li><a href="#e1">E1 · The ethics standard</a></li>
+  </ol></nav>
+  <h2 id="how"><span class="sec">Part 1</span>How to attack a synthesis problem</h2>
+  <ol>
+    <li><b>Draw the device and number the stations.</b> Use the course stations (0, 2, 3, 4, 5, 9, 13, 19, or chamber/throat/exit).</li>
+    <li><b>Name the process between each pair of stations.</b> Area change only → isentropic (C1). Shock → C2. Friction in a constant-area duct → Fanno (C3). Heat or combustion in a constant-area duct → Rayleigh (C4) plus an energy balance (C6). Work → compressor/turbine with efficiencies (C8). Wall heat → resistances and correlations (C12/C13).</li>
+    <li><b>List what is conserved</b> across each process (\(T_t\)? \(p_t\)? \(\dot m\)? \(A^*\)?). That tells you which ratio to carry forward.</li>
+    <li><b>Carry stagnation properties</b> through the chain and only convert to static where you need velocity, pressure thrust or heat flux.</li>
+    <li><b>Sanity-check every station</b> with the J1 trends. Partial credit rewards a clear chain even when a number slips.</li>
+  </ol>
+  <h2 id="drill"><span class="sec">Part 2</span>Synthesis problem generator</h2>
+  <p>Each problem chains two or three standards. The worked solution starts by naming which relations apply and why.</p>
+</div>
+<div id="qz"></div>
+<div class="prose">
+  <h2 id="cumulative"><span class="sec">Part 3</span>Cumulative practice exam</h2>
+  <p>Synthesis problems mixed with single-standard problems from all five modules.</p>
+</div>
+<div id="examgen"></div>
+<div class="prose">
+  <h2 id="e1"><span class="sec">Part 4</span>E1 · The ethics standard</h2>
+  <p><b>E1:</b> I can identify my core values and use them to reason through an ethical dilemma in aerospace engineering. It is a pass-gate: you need it for any passing grade. The paper is assigned in week 10 alongside the history of US rockets lecture. A structure that works:</p>
+  <ol>
+    <li><b>Name your core values</b> (three or four), and say where each comes from and what it demands of you in practice. "Honesty" is a word; "I report test data that hurts my schedule" is a value in action.</li>
+    <li><b>State the dilemma precisely:</b> who decides, what the options are, who bears the risk, and what is uncertain.</li>
+    <li><b>Identify the stakeholders and the obligations</b> you have to each: the public (paramount, in the NSPE and AIAA codes), your employer, your colleagues, yourself.</li>
+    <li><b>Reason from your values</b> to a decision, showing where two values conflict and how you resolve it.</li>
+    <li><b>Test the decision:</b> would you defend it publicly? What would you do if your manager disagreed? What is your escalation path?</li>
+  </ol>
+  <p>Well-documented aerospace cases to think with: the Challenger O-ring launch decision (cold-temperature data, the "take off your engineering hat" moment), Columbia foam strike assessment, the Apollo 1 fire, the DC-10 cargo door, and the 737 MAX MCAS certification. Several connect directly to this course: solid-motor joints, combustor and nozzle thermal limits, and test-versus-schedule pressure.</p>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam2.js"></script>
+<script src="../assets/js/gen-exam3.js"></script>
+<script src="../assets/js/gen-final.js"></script>
+<script>
+  QZ.mount("#qz", { topics: QZ.byStd("S"), title: "Synthesis problems" });
+  QZ.exam("#examgen", { topics: QZ.ORDER, count: 8, counts: [6, 8, 10, 12], minutes: 120 });
+</script>
+</body>
+</html>

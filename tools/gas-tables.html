@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gas Tables Calculator · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="tools">
+<main>
+<div class="prose">
+  <div class="eyebrow">Tool · Module 1</div>
+  <h1>Gas Tables Calculator</h1>
+  <p class="lead">Tables 1–4 of the equation sheet (isentropic, normal shock, Fanno, Rayleigh) for any γ. Enter a Mach number to get every ratio, or enter a known ratio and pick a branch to get the Mach number back. Use it to check your table lookups, not to replace practicing them.</p>
+</div>
+<section class="lab" id="lab">
+  <div class="lab-head"><span class="num">Calculator</span><span class="title">Compressible flow relations</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="g">γ</label><input type="number" id="g" value="1.4" step="0.01" min="1.01" max="1.67"></div>
+    <div class="ctl"><label for="kind">Known quantity</label>
+      <select id="kind">
+        <option value="M">Mach number M</option>
+        <option value="AAs">A/A* (isentropic)</option>
+        <option value="ptp">p<sub>t</sub>/p (isentropic)</option>
+        <option value="TtT">T<sub>t</sub>/T (isentropic)</option>
+        <option value="NSM2">M₂ behind a normal shock</option>
+        <option value="NSpt">p<sub>t2</sub>/p<sub>t1</sub> across a normal shock</option>
+        <option value="fL">f̄ℓ*/D (Fanno)</option>
+        <option value="RTt">T<sub>t</sub>/T<sub>t</sub>* (Rayleigh)</option>
+      </select></div>
+    <div class="ctl"><label for="v">Value</label><input type="number" id="v" value="2" step="any"></div>
+    <div class="ctl inline"><span>Branch</span><div class="seg" id="br" data-value="sup"><button data-value="sub" aria-pressed="false">subsonic</button><button data-value="sup" aria-pressed="true">supersonic</button></div></div>
+    <div id="ro" class="readout"></div>
+  </div>
+  <div class="views two-up"><figure><div id="t1"></div></figure><figure><div id="t2"></div></figure></div>
+</section>
+</main>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script>
+(function () {
+  const f = x => (isFinite(x) ? (+x.toPrecision(5)).toString() : "—");
+  UI.wire("#lab", () => {
+    const g = Math.min(1.67, Math.max(1.01, +document.getElementById("g").value || 1.4)), k = document.getElementById("kind").value, v = +document.getElementById("v").value, sup = UI.seg("br") === "sup";
+    let M = NaN, note = "";
+    try {
+      if (k === "M") M = v;
+      else if (k === "AAs") M = GD.M_AAs(v, sup, g);
+      else if (k === "ptp") M = GD.M_ptp(v, g);
+      else if (k === "TtT") M = GD.M_TtT(v, g);
+      else if (k === "NSM2") { M = GD.NS.M1(v, g); note = "M is the upstream M₁"; }
+      else if (k === "NSpt") { M = GD.solve(m => GD.NS.pt(m, g) - v, 1, 50); note = "M is the upstream M₁"; }
+      else if (k === "fL") M = GD.FA.M(v, sup, g);
+      else if (k === "RTt") M = GD.RA.M(v, sup, g);
+    } catch (e) { M = NaN; }
+    if (!(M > 0)) { UI.readout("#ro", [["M", "no solution for that value"]]); return; }
+    UI.readout("#ro", [["M", f(M)], ["note", note || (["AAs", "fL", "RTt"].includes(k) ? `${sup ? "supersonic" : "subsonic"} branch` : "single-valued")]]);
+    UI.table("#t1", ["Isentropic", ""], [["T<sub>t</sub>/T", f(GD.TtT(M, g))], ["p<sub>t</sub>/p", f(GD.ptp(M, g))], ["ρ<sub>t</sub>/ρ", f(GD.rtr(M, g))], ["A/A*", f(GD.AAs(M, g))], ["T/T*", f((g + 1) / 2 / GD.TtT(M, g))], ["p/p*", f(Math.pow((g + 1) / 2 / GD.TtT(M, g), g / (g - 1)))],
+      { sub: "Normal shock (M₁ = M)" }, ...(M > 1 ? [["M₂", f(GD.NS.M2(M, g))], ["p₂/p₁", f(GD.NS.p(M, g))], ["ρ₂/ρ₁", f(GD.NS.r(M, g))], ["T₂/T₁", f(GD.NS.T(M, g))], ["p<sub>t2</sub>/p<sub>t1</sub>", f(GD.NS.pt(M, g))]] : [["", "needs M > 1"]])]);
+    UI.table("#t2", ["Fanno", ""], [["f̄ℓ*/D", f(GD.FA.fL(M, g))], ["p/p*", f(GD.FA.p(M, g))], ["T/T*", f(GD.FA.T(M, g))], ["V/V*", f(GD.FA.V(M, g))], ["p<sub>t</sub>/p<sub>t</sub>*", f(GD.FA.pt(M, g))],
+      { sub: "Rayleigh" }, ["p/p*", f(GD.RA.p(M, g))], ["T/T*", f(GD.RA.T(M, g))], ["T<sub>t</sub>/T<sub>t</sub>*", f(GD.RA.Tt(M, g))], ["p<sub>t</sub>/p<sub>t</sub>*", f(GD.RA.pt(M, g))]]);
+    UI.live("#lab", `M = ${f(M)}`);
+  });
+  ["g", "kind", "v"].forEach(id => document.getElementById(id).addEventListener("change", () => document.getElementById("v").dispatchEvent(new Event("input"))));
+})();
+</script>
+</body>
+</html>

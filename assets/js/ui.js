@@ -34,9 +34,10 @@
       tags: ["2 interactives", "2 standard drills"] },
   ];
   const TOOLS = [
-    { slug: "gas-tables", kicker: "Module 1", title: "Gas Tables Calculator", blurb: "Isentropic, normal-shock, Fanno and Rayleigh relations for any γ, forward or inverse (both branches). Replaces Tables 1–4." },
-    { slug: "cycle", kicker: "Module 3", title: "Turbojet / Turbofan Calculator", blurb: "Enter flight condition, pressure ratios, Tt4 and efficiencies: every station's Tt and pt, f, specific thrust, TSFC and efficiencies." },
-    { slug: "rocket", kicker: "Module 4", title: "Rocket Nozzle Calculator", blurb: "Chamber conditions, γ, MW and ε: c*, pe, C_F, Isp (vacuum and at altitude), thrust and mass flow." },
+    { slug: "gas-tables", kicker: "Module 1", title: "Gas Tables Calculator", blurb: "Isentropic, normal-shock, Fanno and Rayleigh relations for any γ, forward or inverse on either branch. Replaces Tables 1–4." },
+    { href: "lessons/module3.html#lab1", kicker: "Module 3", title: "Turbojet / Turbofan Explorer", blurb: "Flight Mach, π_c, T_t4, bypass and fan ratios: every station's T_t and p_t, specific thrust, TSFC and efficiencies, plotted against π_c." },
+    { href: "lessons/module4.html#lab1", kicker: "Module 4", title: "Rocket Nozzle Explorer", blurb: "γ, p_c, p_a, ε and T_c: exit pressure, C_F, c*, Isp and the optimum area ratio, with separation flagged." },
+    { href: "lessons/module4.html#lab2", kicker: "Module 4", title: "Solid Motor Ballistics", blurb: "Burn-rate exponent and grain geometry → chamber pressure and thrust versus time for progressive, regressive and neutral grains." },
   ];
   const EXAMS = [
     { slug: "exam1", n: 1, title: "Exam 1 Review", blurb: "C1–C4 and J1: objectives checklist, key equations, common mistakes and a practice exam generator for compressible and internal flow." },
@@ -459,7 +460,7 @@
           : `<a class="card" href="${ROOT}exams/${c.slug}.html"><span class="kicker">${k}</span><h3>${c.title}</h3><p>${c.blurb}</p></a>`;
       }).join("")}</div>`;
     } else {
-      el.innerHTML = `<div class="grid">${TOOLS.map(c => `<a class="card" href="${ROOT}tools/${c.slug}.html">
+      el.innerHTML = `<div class="grid">${TOOLS.map(c => `<a class="card" href="${ROOT}${c.href || "tools/" + c.slug + ".html"}">
         <span class="kicker">${c.kicker}</span><h3>${c.title}</h3><p>${c.blurb}</p></a>`).join("")}</div>`;
     }
   }

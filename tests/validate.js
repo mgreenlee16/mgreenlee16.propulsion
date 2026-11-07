@@ -3,7 +3,7 @@ global.window = undefined;
 const path = require("path");
 const js = f => path.join(__dirname, "../assets/js", f);
 global.CX = require(js("cx.js")); global.QZ = require(js("quiz.js")); global.GD = require(js("gd.js"));
-["gen-exam1.js", "gen-exam2.js", "gen-exam3.js"].forEach(f => { try { require(js(f)); } catch (e) { if (e.code !== "MODULE_NOT_FOUND") throw e; } });
+["gen-exam1.js", "gen-exam2.js", "gen-exam3.js", "gen-final.js"].forEach(f => { try { require(js(f)); } catch (e) { if (e.code !== "MODULE_NOT_FOUND") throw e; } });
 let bad = 0;
 for (const id of QZ.ORDER) {
   for (let i = 0; i < 300; i++) {
