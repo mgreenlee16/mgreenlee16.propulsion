@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standards Practice · Learn Propulsion</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .stdgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem;margin:.6rem 0 1.2rem}
+  .stdgrid button{text-align:left;padding:.55rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font:inherit;font-family:var(--sans);font-size:.85rem;cursor:pointer}
+  .stdgrid button b{display:block;font-size:1.05rem}
+  .stdgrid button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+  .stdgrid button .met{color:var(--good);font-weight:600}
+  .stdmod{font-family:var(--sans);font-size:.8rem;color:var(--muted);margin:.8rem 0 0;text-transform:uppercase;letter-spacing:.04em}
+</style>
+</head>
+<body data-root="./" data-section="practice">
+<main>
+<div class="prose">
+  <div class="eyebrow">Practice by standard</div>
+  <h1>Standards practice</h1>
+  <p class="lead">You attempt each standard on its own, so practice it on its own. Pick a standard to get a drill that only writes problems for that standard, plus a mock attempt graded the way the real one is: every problem right for a computational standard, 8 of 10 for J1. Your accuracy per problem type is saved in this browser.</p>
+  <div id="picker"></div>
+  <div id="head"></div>
+</div>
+<div id="drill"></div>
+<div class="prose"><h2 id="attempt">Mock attempt</h2><div id="attemptNote"></div></div>
+<div id="exam"></div>
+<div class="prose"><h2>Your progress on this standard</h2></div>
+<div id="mast"></div>
+</main>
+<script src="assets/js/cx.js"></script>
+<script src="assets/js/gd.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/quiz.js"></script>
+<script src="assets/js/standards.js"></script>
+<script src="assets/js/gen-exam1.js"></script>
+<script src="assets/js/gen-exam2.js"></script>
+<script src="assets/js/gen-exam3.js"></script>
+<script>
+(function () {
+  const list = STD.list.filter(s => s.n);
+  let html = "", last = null;
+  list.forEach(s => {
+    if (s.m !== last) { html += `${last === null ? "" : "</div>"}<div class="stdmod">${STD.MODULES[s.m]}</div><div class="stdgrid">`; last = s.m; }
+    const met = UI.store.get("std." + s.id, "0") === "1";
+    html += `<button type="button" data-id="${s.id}" aria-pressed="false"><b>${s.id}${met ? ' <span class="met">✓ met</span>' : ""}</b>${s.cls} · ${QZ.byStd(s.id).length} problem types</button>`;
+  });
+  document.getElementById("picker").innerHTML = html + "</div>";
+  function show(id) {
+    const s = STD.get(id) || list[0];
+    document.querySelectorAll("#picker button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === s.id ? "true" : "false"));
+    const ids = QZ.byStd(s.id), met = UI.store.get("std." + s.id, "0") === "1";
+    document.getElementById("head").innerHTML = `<h2 id="drillH">${s.id} · ${s.cls}</h2><p><b>I can</b> ${s.t.charAt(0).toLowerCase() + s.t.slice(1)}</p>
+      <p><a href="lessons/${s.at}">Read the lesson section →</a> &nbsp; <label><input type="checkbox" id="metBox" ${met ? "checked" : ""}> I have met ${s.id} on a graded attempt</label></p>
+      <p style="color:var(--muted)">Problem types in this drill: ${ids.map(i => QZ.TOPICS[i].title).join(" · ")}.</p>`;
+    document.getElementById("metBox").addEventListener("change", e => { UI.store.set("std." + s.id, e.target.checked ? "1" : "0"); });
+    const m = QZ.mastery("#mast", ids);
+    QZ.mount("#drill", { topics: ids, title: `${s.id} drill: endless problems`, onAnswer: () => m.render() });
+    const need = s.need || s.n;
+    document.getElementById("attemptNote").innerHTML = `<p>${s.n} problem${s.n > 1 ? "s" : ""} drawn from the ${s.id} problem types, graded together. To count as <b>Met</b> you need ${need} of ${s.n} correct${s.need ? "" : " (all of them, as for a real computational standard)"}. Use the timer to simulate the testing center.</p>`;
+    QZ.exam("#exam", { topics: ids, count: s.n, counts: [s.n, s.n * 2], minutes: s.n >= 10 ? 15 : 30, button: `Generate a ${s.id} mock attempt`, intro: `Press the button for a fresh ${s.id} attempt. Every attempt is different.`, pass: n => Math.round(need * n / s.n), onGrade: () => m.render() });
+    UI.typeset(document.getElementById("head"));
+    if (location.hash.slice(1) !== s.id) history.replaceState(null, "", "#" + s.id);
+  }
+  document.querySelectorAll("#picker button").forEach(b => b.addEventListener("click", () => { show(b.dataset.id); document.getElementById("head").scrollIntoView({ behavior: "smooth" }); }));
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  show(location.hash.slice(1) || UI.store.get("lastStd", "C1"));
+  document.querySelectorAll("#picker button").forEach(b => b.addEventListener("click", () => UI.store.set("lastStd", b.dataset.id)));
+})();
+</script>
+</body>
+</html>

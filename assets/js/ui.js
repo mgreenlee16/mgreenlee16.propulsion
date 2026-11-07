@@ -14,51 +14,24 @@
   // ---------- site map ----------
   // exam: 1, 2, 3, or 4 (synthesis final). std: the course standards each lesson serves.
   const LESSONS = [
-    { part: "Exam 1 · Module 1: compressible and internal flow (C1–C4, J1)", exam: 1 },
-    { slug: "review", n: 1, exam: 1, title: "Review: Thermo, COE & Momentum", std: "Lecture 1",
-      blurb: "Units (lbm, lbf, gc), the ideal-gas equations of state, open-system energy balance by component, isentropic processes and efficiencies, the thrust equation from linear momentum, and ideal-gas mixtures.",
-      tags: ["1 interactive", "worked examples"] },
-    { slug: "isentropic", n: 2, exam: 1, title: "Isentropic Flow & Nozzles", std: "C1",
-      blurb: "Mach number, stagnation properties, the area–velocity relation, A/A*, choking, mass flow, back pressure, and over-, under- and perfectly expanded nozzles.",
-      tags: ["2 interactives", "problem generator"] },
-    { slug: "shocks", n: 3, exam: 1, title: "Normal Shocks", std: "C2",
-      blurb: "Jump relations, why shocks only occur in supersonic flow, stagnation-pressure loss and the new A*, and locating a shock in a C-D nozzle.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "fanno", n: 4, exam: 1, title: "Fanno Flow (Friction)", std: "C3",
-      blurb: "Adiabatic flow with friction in a constant-area duct: f̄ℓ*/D, the * reference state, trends, choking length, and shocks in long ducts.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "rayleigh", n: 5, exam: 1, title: "Rayleigh Flow (Heat Addition)", std: "C4",
-      blurb: "Frictionless constant-area flow with heat addition: Tt/Tt*, thermal choking, and the stagnation-pressure cost of burning at high Mach number.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "trends", n: 6, exam: 1, title: "Predicting Property Changes", std: "J1",
-      blurb: "One table for every process: isentropic area change, shocks, friction and heating, sub- and supersonic, with a rapid-fire trainer (8 of 10 to meet J1).",
-      tags: ["trainer", "problem generator"] },
-    { part: "Exam 2 · Modules 2–3: combustion and airbreathing cycles (C5–C9, J2)", exam: 2 },
-    { slug: "combustion", n: 7, exam: 2, title: "Combustion & Flame Temperature", std: "C5, C6",
-      blurb: "Balancing reactions with air, AF, FA, O/F and equivalence ratio, heats of formation, heating values, combustor energy balances and the adiabatic flame temperature.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "equilibrium", n: 8, exam: 2, title: "Chemical Equilibrium", std: "C7",
-      blurb: "Why major products are not enough, Gibbs energy, Kp(T) from Table A-27, flipping and scaling reactions, dissociation, and the effects of T and p.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "brayton", n: 9, exam: 2, title: "Brayton Cycle & Performance Parameters", std: "C8, C9",
-      blurb: "Ideal and real Brayton cycles, thermal efficiency vs. CPR, the work-optimal pressure ratio, thrust, specific thrust, TSFC, and thermal, propulsive and overall efficiency.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "turbojet", n: 10, exam: 2, title: "Turbojet Cycle Analysis", std: "C8, C9",
-      blurb: "Station-by-station analysis 0 → 9: diffuser, compressor, burner, turbine power balance, nozzle, then specific thrust and TSFC.",
-      tags: ["cycle calculator", "problem generator"] },
-    { slug: "turbofan", n: 11, exam: 2, title: "Turbofans, Turboprops & Ramjets", std: "C8, C9, J2",
-      blurb: "Bypass ratio, fan work and separate nozzles; propellers, actuator-disk theory and J, cF, cP; the ideal ramjet; and the design trade-offs between them.",
-      tags: ["1 interactive", "problem generator"] },
-    { part: "Exam 3 · Modules 4–5: rockets and heat transfer (C10–C13, J3)", exam: 3 },
-    { slug: "rockets", n: 12, exam: 3, title: "Rockets: Δv, c*, C_F & Isp", std: "C10, J3",
-      blurb: "The rocket equation and mass fractions, chamber-as-stagnation, c*, thrust coefficient, Isp at altitude, and sizing a nozzle for a thrust.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "solids", n: 13, exam: 3, title: "Solid Rocket Motors", std: "C11",
-      blurb: "Grain types, St. Robert's law r = a·pcⁿ, the lumped-parameter chamber pressure, why n < 1, and thrust–time from grain geometry.",
-      tags: ["1 interactive", "problem generator"] },
-    { slug: "heat-transfer", n: 14, exam: 3, title: "Heat Transfer: Conduction, Convection & Fins", std: "C12, C13",
-      blurb: "Modes of heat transfer, thermal resistance networks, 1D steady conduction, convective correlations and the Bartz relation, fins and fin arrays.",
-      tags: ["2 interactives", "problem generator"] },
+    { part: "Exam 1", exam: 1 },
+    { slug: "module1", n: 1, exam: 1, title: "Module 1 · Compressible & Internal Flow", std: "C1–C4, J1",
+      blurb: "Review of thermo and momentum, then isentropic flow and nozzles (C1), normal shocks in nozzles (C2), Fanno friction flow (C3), Rayleigh heat-addition flow (C4), and predicting property changes (J1).",
+      tags: ["4 interactives", "5 standard drills"] },
+    { part: "Exam 2", exam: 2 },
+    { slug: "module2", n: 2, exam: 2, title: "Module 2 · Combustion", std: "C5–C7",
+      blurb: "Balancing reactions, AF, FA, O/F and equivalence ratio (C5); heats of formation, heating values, combustor energy balances and flame temperature (C6); chemical equilibrium with Kp (C7).",
+      tags: ["2 interactives", "3 standard drills"] },
+    { slug: "module3", n: 3, exam: 2, title: "Module 3 · Airbreathing Cycles", std: "C8, C9, J2",
+      blurb: "Brayton cycle, thrust and performance parameters, station-by-station turbojet and turbofan analysis (C8), specific thrust, TSFC and efficiencies (C9), turboprops, ramjets and design trade-offs (J2).",
+      tags: ["cycle calculator", "3 standard drills"] },
+    { part: "Exam 3", exam: 3 },
+    { slug: "module4", n: 4, exam: 3, title: "Module 4 · Rocket Propulsion", std: "C10, C11, J3",
+      blurb: "The rocket equation and mass fractions, c*, thrust coefficient and Isp, sizing a nozzle (C10), solid motors with St. Robert's law and grain geometry (C11), and design choices (J3).",
+      tags: ["2 interactives", "3 standard drills"] },
+    { slug: "module5", n: 5, exam: 3, title: "Module 5 · Heat Transfer", std: "C12, C13",
+      blurb: "Modes of heat transfer, resistance networks and 1D conduction, convective correlations, recovery temperature and Bartz (C12), and fins and fin arrays (C13).",
+      tags: ["2 interactives", "2 standard drills"] },
   ];
   const TOOLS = [
     { slug: "gas-tables", kicker: "Module 1", title: "Gas Tables Calculator", blurb: "Isentropic, normal-shock, Fanno and Rayleigh relations for any γ, forward or inverse (both branches). Replaces Tables 1–4." },
@@ -72,20 +45,11 @@
     { slug: "final", n: 4, title: "Synthesis Final", blurb: "Multi-standard problems that do not tell you which relations apply, plus a cumulative practice exam and the standards tracker." },
   ];
   const GLYPH = {
-    review: '<rect x="20" y="16" width="140" height="32" rx="4" class="box"/><text x="34" y="37" class="small">Ė = Q̇ − Ẇ + Σṁh_t</text>',
-    isentropic: '<path d="M10 14 Q60 14 80 28 Q90 32 100 28 Q130 10 170 6 M10 50 Q60 50 80 36 Q90 32 100 36 Q130 54 170 58" class="sig1" style="fill:none"/><text x="82" y="62" class="small">M=1</text>',
-    shocks: '<path d="M10 14 Q60 14 80 28 Q90 32 100 28 Q130 10 170 6 M10 50 Q60 50 80 36 Q90 32 100 36 Q130 54 170 58" class="axisl" style="fill:none"/><line x1="128" y1="12" x2="128" y2="52" class="sig2"/><text x="132" y="34" class="small">shock</text>',
-    fanno: '<rect x="14" y="20" width="152" height="24" class="box"/><path d="M14 20 l6 -5 m10 5 l6 -5 m10 5 l6 -5 m10 5 l6 -5 m10 5 l6 -5 m10 5 l6 -5 m10 5 l6 -5 m10 5 l6 -5" class="axisl"/><text x="40" y="36" class="small">M → 1 by friction</text>',
-    rayleigh: '<rect x="14" y="20" width="152" height="24" class="box"/><text x="20" y="14" class="small hot">q̇ q̇ q̇</text><text x="40" y="36" class="small">M → 1 by heating</text>',
-    trends: '<text x="14" y="22" class="small">p ↑  T ↑  ρ ↑</text><text x="14" y="40" class="small">M ↓  V ↓  p_t ↓</text><text x="14" y="58" class="small">T_t —  s ↑</text>',
-    combustion: '<path d="M90 58 C60 50,70 26,90 6 C110 26,120 50,90 58Z" class="okfill"/><text x="20" y="34" class="small">φ = F/A ÷ (F/A)ₛ</text>',
-    equilibrium: '<text x="20" y="36" class="label">CO₂ ⇌ CO + ½O₂</text>',
-    brayton: '<path d="M30 56 L40 20 L140 8 L150 46 Z" class="sig1" style="fill:none"/><text x="20" y="62" class="small">1</text><text x="30" y="18" class="small">2</text><text x="142" y="8" class="small">3</text><text x="152" y="52" class="small">4</text>',
-    turbojet: '<path d="M10 24 L40 20 L120 20 L170 26 L170 38 L120 44 L40 44 L10 40 Z" class="box"/><text x="16" y="36" class="small">0 2 3 4 5 9</text>',
-    turbofan: '<path d="M10 10 L60 10 L60 54 L10 54 Z" class="box"/><path d="M60 22 L170 26 L170 38 L60 42 Z" class="box"/><text x="64" y="36" class="small">core + bypass α</text>',
-    rockets: '<path d="M20 20 H90 L110 28 H120 L170 6 M20 44 H90 L110 36 H120 L170 58" class="sig1" style="fill:none"/><text x="30" y="36" class="small">p_c, T_c</text>',
-    solids: '<rect x="14" y="14" width="130" height="36" class="box"/><rect x="14" y="26" width="130" height="12" class="okfill"/><text x="40" y="35" class="small">port</text><path d="M144 28 L170 18 M144 36 L170 46" class="axisl"/>',
-    "heat-transfer": '<rect x="70" y="8" width="18" height="50" class="box"/><rect x="88" y="26" width="70" height="12" class="okfill"/><text x="20" y="36" class="small">T_b</text><text x="120" y="20" class="small">fin</text>',
+    module1: '<path d="M10 14 Q60 14 80 28 Q90 32 100 28 Q130 10 170 6 M10 50 Q60 50 80 36 Q90 32 100 36 Q130 54 170 58" class="sig1" style="fill:none"/><line x1="128" y1="12" x2="128" y2="52" class="sig2"/><text x="82" y="62" class="small">M=1</text><text x="132" y="34" class="small">shock</text>',
+    module2: '<path d="M90 58 C60 50,70 26,90 6 C110 26,120 50,90 58Z" class="okfill"/><text x="16" y="24" class="small">φ = FA/FA_st</text><text x="116" y="50" class="small">CO₂ ⇌ CO+½O₂</text>',
+    module3: '<path d="M10 10 L50 10 L50 54 L10 54 Z" class="box"/><path d="M50 22 L170 26 L170 38 L50 42 Z" class="box"/><text x="56" y="36" class="small">2 3 4 5 9 · α</text>',
+    module4: '<path d="M20 20 H90 L110 28 H120 L170 6 M20 44 H90 L110 36 H120 L170 58" class="sig1" style="fill:none"/><text x="30" y="36" class="small">p_c, T_c → c*, C_F</text>',
+    module5: '<rect x="70" y="8" width="18" height="50" class="box"/><rect x="88" y="26" width="70" height="12" class="okfill"/><text x="16" y="36" class="small">T_b</text><text x="120" y="20" class="small">fin</text>',
   };
 
   // ---------- chrome ----------
@@ -111,7 +75,8 @@
         </a>
         <nav>
           <a href="${ROOT}index.html#lessons" ${here === "lessons" ? 'aria-current="page"' : ""}>Lessons</a>
-          <a href="${ROOT}practice.html" ${here === "practice" ? 'aria-current="page"' : ""}>Practice</a>
+          <a href="${ROOT}standards.html" ${here === "practice" ? 'aria-current="page"' : ""}>Standards</a>
+          <a href="${ROOT}practice.html" ${here === "drill" ? 'aria-current="page"' : ""}>Practice</a>
           <a href="${ROOT}index.html#exams" ${here === "exams" ? 'aria-current="page"' : ""}>Exams</a>
           <a href="${ROOT}index.html#tools" ${here === "tools" ? 'aria-current="page"' : ""}>Tools</a>
           <a href="${ROOT}about.html" ${here === "about" ? 'aria-current="page"' : ""}>About</a>
@@ -483,7 +448,7 @@
         if (l.part) { html += `${html ? "</div>" : ""}<h3 class="eyebrow" style="margin-top:1.6rem">${l.part}</h3><div class="grid">`; return; }
         if (l.soon) { html += `<div class="card soon"><span class="kicker">Coming soon</span><h3>${l.title}</h3><p>${l.blurb}</p></div>`; return; }
         html += `<a class="card" href="${ROOT}lessons/${l.slug}.html"><div class="glyph"><svg class="diagram" viewBox="0 0 180 64">${GLYPH[l.slug] || ""}</svg></div>
-          <span class="kicker">Lesson ${l.n} · ${l.std || ""}</span><h3>${l.title}</h3><p>${l.blurb}</p>
+          <span class="kicker">${l.std || ""}</span><h3>${l.title}</h3><p>${l.blurb}</p>
           <div class="tags">${(l.tags || []).map(t => `<span class="pill">${t}</span>`).join("")}</div></a>`;
       });
       el.innerHTML = html + "</div>";

@@ -225,10 +225,10 @@
     const pool = (opts.topics || ORDER).filter(id => TOPICS[id]);
     const uid = "ex" + Math.random().toString(36).slice(2, 8);
     let probs = [], timer = null, t0 = 0, submitted = false;
-    el.innerHTML = `<div class="exam-bar"><button type="button" class="primary ex-new" style="background:var(--accent);color:#fff;border-color:var(--accent)">Generate a new practice exam</button>
+    el.innerHTML = `<div class="exam-bar"><button type="button" class="primary ex-new" style="background:var(--accent);color:#fff;border-color:var(--accent)">${opts.button || "Generate a new practice exam"}</button>
       <label>Questions <select class="ex-count">${(opts.counts || [6, 8, 10, 12, 15]).map(n => `<option ${n === (opts.count || 8) ? "selected" : ""}>${n}</option>`).join("")}</select></label>
       <label><input type="checkbox" class="ex-timed"> Timed (${opts.minutes || 50} min)</label>
-      <span class="timer"></span></div><div class="ex-body"><p class="prose" style="color:var(--muted)">Press the button to draw a random exam from the topics below. Each exam is different.</p></div>`;
+      <span class="timer"></span></div><div class="ex-body"><p class="prose" style="color:var(--muted)">${opts.intro || "Press the button to draw a random exam from the topics below. Each exam is different."}</p></div>`;
     const body = el.querySelector(".ex-body"), timerEl = el.querySelector(".timer");
     function draw() {
       const n = +el.querySelector(".ex-count").value;
@@ -290,7 +290,7 @@
         box.querySelector(".qz-sol").classList.add("show");
       });
       const need = opts.pass ? opts.pass(probs.length) : 0;
-      body.querySelector(".ex-score").innerHTML = `<b>Score: ${score} / ${probs.length}</b> (${Math.round(100 * score / probs.length)}%)` + (need ? (score >= need ? ` · <b style="color:var(--ok)">Met</b>` : ` · <b style="color:var(--hot)">New attempt required</b> (need ${need})`) : "") + (t0 && el.querySelector(".ex-timed").checked ? ` · ${Math.round((Date.now() - t0) / 60000)} min` : "");
+      body.querySelector(".ex-score").innerHTML = `<b>Score: ${score} / ${probs.length}</b> (${Math.round(100 * score / probs.length)}%)` + (need ? (score >= need ? ` · <b style="color:var(--good)">Met</b>` : ` · <b style="color:var(--hot)">New attempt required</b> (need ${need})`) : "") + (t0 && el.querySelector(".ex-timed").checked ? ` · ${Math.round((Date.now() - t0) / 60000)} min` : "");
       if (opts.onGrade) opts.onGrade();
     }
     el.querySelector(".ex-new").addEventListener("click", draw);
