@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 3 · Airbreathing Cycles · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="lessons" data-lesson="module3">
+<main>
+<div class="prose">
+  <div class="eyebrow">Module 3 · Exam 2 · Lectures 8–13</div>
+  <h1>Airbreathing Cycles</h1>
+  <p class="lead">A gas turbine is a Brayton cycle with the kinetic energy kept. This module starts from the Brayton cycle, defines the performance numbers (C9), then works station by station through turbojets, turbofans, ramjets and turboprops (C8), and finishes with the design trade-offs between them (J2).</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#brayton">The Brayton cycle</a></li>
+    <li><a href="#c9">C9 · Thrust and performance parameters</a></li>
+    <li><a href="#c8">C8 · Station-by-station analysis: turbojet</a></li>
+    <li><a href="#fan">Turbofans</a></li>
+    <li><a href="#ramjet">Ramjets</a></li>
+    <li><a href="#prop">Turboprops and propellers</a></li>
+    <li><a href="#j2">J2 · Design trade-offs</a></li>
+  </ol></nav>
+
+  <h2 id="brayton"><span class="sec">Lecture 8</span>The Brayton cycle</h2>
+  <p>Ideal Brayton: 1→2 isentropic compression, 2→3 constant-pressure heat addition, 3→4 isentropic expansion, 4→1 constant-pressure heat rejection. With constant \(c_p\) and pressure ratio \(\pi\):</p>
+  $$\eta_{th} = \frac{w_{net}}{q_{in}} = 1 - \frac{T_1}{T_2} = 1 - \pi^{-(\gamma-1)/\gamma},\qquad w_{net} = c_p[(T_3 - T_4) - (T_2 - T_1)].$$
+  <p>Efficiency rises with \(\pi\) without limit, but specific work does not: at fixed \(T_1\), \(T_3\), it peaks when \(T_2 = \sqrt{T_1T_3}\), i.e. \(\pi_{opt} = (T_3/T_1)^{\gamma/[2(\gamma-1)]}\). Higher \(T_3\) gives a higher optimum. \(T_3\) is capped by turbine creep (blade life roughly halves per 10 K), and the pressure ratio by weight and tip losses. With real components, \(T_{2} = T_1 + (T_{2s} - T_1)/\eta_c\) and \(T_4 = T_3 - \eta_t(T_3 - T_{4s})\), and the efficiency now has a maximum too.</p>
+  <p><b>A jet engine is not exactly a Brayton cycle:</b> the turbine pressure ratio is smaller than the compressor's (the rest goes to the nozzle), and we track stagnation properties because kinetic energy matters.</p>
+
+  <h2 id="c9"><span class="sec">C9</span>Thrust and performance parameters</h2>
+  <p>Stations (equation sheet): 0 free stream, 2 compressor face, 3 compressor exit, 4 burner exit, 5 turbine exit, 7 afterburner exit, 9 nozzle exit; for a fan, 13 fan exit and 19 fan-nozzle exit. Thrust from momentum, uninstalled:</p>
+  $$F = \dot m_9u_9 - \dot m_0u_0 + (p_9 - p_0)A_9,\qquad \dot m_9 = (1 + f)\dot m_0.$$
+  <p>The first two terms are momentum thrust and the last is pressure thrust; \(\dot m_0u_0\) is ram drag. The five performance parameters:</p>
+  $$\frac{F}{\dot m_{air}}\ \text{(specific thrust)},\quad TSFC = \frac{\dot m_f}{F},\quad \eta_{th} = \frac{\tfrac12(\dot m_9u_9^2 - \dot m_0u_0^2)}{\dot m_fQ_R},\quad \eta_p = \frac{Fu_0}{\tfrac12(\dot m_9u_9^2 - \dot m_0u_0^2)},\quad \eta_0 = \eta_{th}\eta_p = \frac{Fu_0}{\dot m_fQ_R}.$$
+  <p>\(Q_R\) is the fuel's lower heating value from Module 2. With \(f \ll 1\) and a perfectly expanded nozzle, \(\eta_p \approx 2/(1 + u_9/u_0)\): accelerating a lot of air a little is efficient. Units: TSFC in kg/(N·s) is tiny; quote it in g/(kN·s) or, in US units, lbm/(lbf·h) (multiply kg/(N·s) by 35,300). Take care with \(g_c\) in US units: \(F/\dot m\) comes out in ft/s, so divide by 32.174 to get lbf/(lbm/s).</p>
+
+  <h2 id="c8"><span class="sec">C8</span>Station-by-station analysis: turbojet</h2>
+  <p>The recipe below is the C8 standard. Work in stagnation properties, use \(c_p\) and \(\gamma\) as given (the practice set uses one value throughout), and sanity-check every station: \(T_t\) and \(p_t\) should rise through the compressor, \(T_t\) should rise in the burner, both should fall through the turbine.</p>
+  <ol>
+    <li><b>Free stream:</b> \(u_0 = M_0\sqrt{\gamma RT_0}\), \(T_{t0} = T_0(1 + \frac{\gamma-1}{2}M_0^2)\), \(p_{t0} = p_0(T_{t0}/T_0)^{\gamma/(\gamma-1)}\).</li>
+    <li><b>Diffuser (0→2):</b> \(T_{t2} = T_{t0}\) (adiabatic). \(p_{t2} = \pi_dp_{t0}\), or from \(\eta_d = (h_{t2s} - h_0)/(h_{t2} - h_0)\): \(p_{t2} = p_0[1 + \eta_d(T_{t0}/T_0 - 1)]^{\gamma/(\gamma-1)}\).</li>
+    <li><b>Compressor (2→3):</b> \(p_{t3} = \pi_cp_{t2}\), \(T_{t3s} = T_{t2}\pi_c^{(\gamma-1)/\gamma}\), \(T_{t3} = T_{t2} + (T_{t3s} - T_{t2})/\eta_c\).</li>
+    <li><b>Burner (3→4):</b> \(T_{t4}\) is given (material limit). \(f = c_p(T_{t4} - T_{t3})/(\eta_bQ_R - c_pT_{t4})\), \(p_{t4} = \pi_bp_{t3}\) (constant pressure if no data: a Rayleigh loss in reality).</li>
+    <li><b>Turbine (4→5), the power balance:</b> \((1 + f)c_p(T_{t4} - T_{t5}) = c_p(T_{t3} - T_{t2})\) (plus any accessory power). Then \(T_{t5s} = T_{t4} - (T_{t4} - T_{t5})/\eta_t\) and \(p_{t5} = p_{t4}(T_{t5s}/T_{t4})^{\gamma/(\gamma-1)}\).</li>
+    <li><b>Nozzle (5→9):</b> \(T_{t9} = T_{t5}\). Perfectly expanded: \(p_9 = p_0\), \(T_{9s} = T_{t5}(p_0/p_{t5})^{(\gamma-1)/\gamma}\), \(T_9 = T_{t5} - \eta_n(T_{t5} - T_{9s})\), \(u_9 = \sqrt{2c_p(T_{t5} - T_9)}\). If it is a converging nozzle, check \(p_{t5}/p_0\) against 1.893 first: if it is choked, \(M_9 = 1\), \(p_9 = p_{t5}/1.893 &gt; p_0\), and there is pressure thrust.</li>
+    <li><b>Performance:</b> \(F/\dot m_0 = (1 + f)u_9 - u_0 + (p_9 - p_0)A_9/\dot m_0\); \(TSFC = f/(F/\dot m_0)\).</li>
+  </ol>
+  <p><b>Afterburner.</b> Off, it still costs \(p_t\) (friction, flame holders). On, it is a second burner (5→7) at \(T_{t7}\) with its own fuel; thrust rises, TSFC rises more.</p>
+</div>
+
+<section class="lab" id="lab1">
+  <div class="lab-head"><span class="num">Interactive 1</span><span class="title">Turbojet and turbofan cycle explorer</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="eM">Flight Mach M<sub>0</sub> = <output for="eM"></output></label><input type="range" id="eM" min="0" max="2.5" step="0.05" value="0.8" data-dec="2"></div>
+    <div class="ctl"><label for="eP">Compressor ratio π<sub>c</sub> = <output for="eP"></output></label><input type="range" id="eP" min="2" max="40" step="1" value="15" data-dec="0"></div>
+    <div class="ctl"><label for="eT">Turbine inlet T<sub>t4</sub> = <output for="eT"></output> K</label><input type="range" id="eT" min="1100" max="2000" step="25" value="1500" data-dec="0"></div>
+    <div class="ctl"><label for="eA">Bypass ratio α = <output for="eA"></output></label><input type="range" id="eA" min="0" max="12" step="0.5" value="0" data-dec="1"></div>
+    <div class="ctl"><label for="eF">Fan ratio π<sub>f</sub> = <output for="eF"></output></label><input type="range" id="eF" min="1.2" max="2.5" step="0.05" value="1.6" data-dec="2"></div>
+    <div class="ctl inline"><span>Components</span><div class="seg" id="eI" data-value="real"><button data-value="ideal" aria-pressed="false">ideal</button><button data-value="real" aria-pressed="true">typical</button></div></div>
+    <p class="drag-hint">11 km altitude (216.8 K, 22.7 kPa), Q<sub>R</sub> = 43 MJ/kg, γ = 1.4, c<sub>p</sub> = 1004.5. Typical: π<sub>d</sub> = 0.97, η<sub>c</sub> = 0.87, η<sub>f</sub> = 0.89, η<sub>b</sub> = 0.98, π<sub>b</sub> = 0.96, η<sub>t</sub> = 0.9, η<sub>n</sub> = 0.97. Nozzles perfectly expanded.</p>
+    <div id="ro1" class="readout"></div>
+  </div>
+  <div class="views two-up">
+    <figure><div id="tab1"></div><figcaption>Stagnation state at each station.</figcaption></figure>
+    <figure><div id="plot1"></div><figcaption>Specific thrust per total air (blue, N·s/kg) and TSFC (pink, g/(kN·s)) versus π<sub>c</sub>; the dot is the current design.</figcaption></figure>
+  </div>
+</section>
+
+<div class="prose">
+  <div data-drill="C8"></div>
+
+  <h2 id="fan"><span class="sec">Lecture 11</span>Turbofans</h2>
+  <p>A turbofan adds a fan and a bypass duct to a turbojet. Bypass ratio \(\alpha = \dot m_{bypass}/\dot m_{core}\), so \(\dot m_{air} = (1 + \alpha)\dot m_0\) where \(\dot m_0\) is now the core flow. Three changes to the turbojet analysis:</p>
+  <ol>
+    <li><b>Fan:</b> \(p_{t13} = \pi_fp_{t2}\), \(T_{t13s} = T_{t2}\pi_f^{(\gamma-1)/\gamma}\), \(T_{t13} = T_{t2} + (T_{t13s} - T_{t2})/\eta_f\). The core sees the fan too (the problem says whether \(\pi_c\) is overall or from station 2.1).</li>
+    <li><b>Turbine power balance:</b> turbine work = compressor work + fan work, \((1+f)(T_{t4} - T_{t5}) = (T_{t3} - T_{t2}) + \alpha(T_{t13} - T_{t2})\).</li>
+    <li><b>Two nozzles</b> (unmixed): core 5→9 and fan 13→19, each expanded to \(p_0\) (or choked). \(F = \dot m_0[(1+f)u_9 - u_0] + \alpha\dot m_0(u_{19} - u_0)\).</li>
+  </ol>
+  <p>High bypass engines (Trent 1000: α ≈ 10, OPR 50, 85% of thrust from the bypass stream; LEAP: α ≈ 9; GE90: α ≈ 6) have high \(\eta_p\) and low TSFC. A geared turbofan lets the fan turn slowly while the LP turbine spins fast. Fighters use low α with mixed exhaust and afterburning for high specific thrust.</p>
+  <div data-drill="C9"></div>
+
+  <h2 id="ramjet"><span class="sec">Lecture 12</span>Ramjets</h2>
+  <p>No compressor or turbine: all the compression comes from ram. For the <b>ideal ramjet</b> (isentropic diffuser and nozzle, constant-pressure burner, \(p_9 = p_0\)), \(p_t\) is constant from 0 to 9, so \(p_{t9}/p_9 = p_{t0}/p_0\) and therefore <b>\(M_9 = M_0\)</b>. Then</p>
+  $$T_9 = \frac{T_{t4}}{1 + \frac{\gamma-1}{2}M_0^2},\qquad \frac{u_9}{u_0} = \sqrt{\frac{T_9}{T_0}} = \sqrt{\frac{T_{t4}}{T_{t0}}},\qquad \frac{F}{\dot m_0} = (1 + f)u_9 - u_0.$$
+  <p>Specific thrust peaks at an intermediate Mach number (higher \(T_{t4}\) moves the peak to higher M); TSFC falls as M rises. Reality: the diffuser has shocks, the burner is a Rayleigh flow (thermal choking!), and the exhaust is combustion products. Ramjets give no static thrust, which is why combined-cycle (RBCC) concepts exist.</p>
+
+  <h2 id="prop"><span class="sec">Lecture 13</span>Turboprops and propellers</h2>
+  <p>A turboprop's turbine drives a propeller through a gearbox (fixed turbine) or a separate power turbine (free turbine). About 85% of the thrust comes from the propeller. Thrust: \(T = \dot m(u_e - u_0) + \eta_{pr}\eta_{gb}\eta_{pt}\alpha\dot m\Delta h/u_0\), where \(\alpha\) is the fraction of available enthalpy drop given to the prop (the power split; ~85/15 optimum).</p>
+  <p><b>Actuator-disk (momentum) theory:</b> incompressible, steady, no swirl, pressure jumps at the disk while velocity is continuous. Half the velocity increase happens before the disk: \(V_{disk} = (V_e + V_0)/2\), \(T = \rho AV_{disk}(V_e - V_0) = A_{disk}(p_2 - p_1)\), ideal power \(P = TV_{disk}\), and</p>
+  $$\frac{V_{disk}}{V_0} = \frac12\left[\left(\frac{2T}{A_{disk}\rho V_0^2} + 1\right)^{1/2} + 1\right],\qquad \eta_{pr,ideal} = \frac{V_0}{V_{disk}}.$$
+  <p><b>Propeller coefficients</b> (n in rev/s): advance ratio \(J = V_0/(nD)\), \(c_F = T/(\rho n^2D^4)\), \(c_P = \dot w_{shaft}/(\rho n^3D^5)\), \(\eta_{pr} = TV_0/\dot w_{shaft} = c_FJ/c_P\). Blades are twisted so each section meets the air at a good angle of attack (tip sections move faster). Variable pitch keeps \(\eta_{pr} &gt; 0.8\) over a range of J.</p>
+
+  <h2 id="j2"><span class="sec">J2</span>Design trade-offs</h2>
+  <p>J2 asks you to assess a trade-off and defend it. Frame every answer as: <i>criterion → which parameter moves → physical reason → what it costs.</i> The big ones:</p>
+  <ul>
+    <li><b>Bypass ratio ↑</b>: \(\eta_p\) ↑, TSFC ↓, specific thrust ↓, so diameter, weight and drag ↑. Best for subsonic transports; poor for supersonic flight.</li>
+    <li><b>Compressor ratio ↑</b>: \(\eta_{th}\) ↑ (TSFC ↓) but specific work peaks then falls; limited by weight, stage count, tip losses and \(T_{t3}\).</li>
+    <li><b>Turbine inlet temperature ↑</b>: specific thrust ↑ (smaller engine), TSFC usually ↑ slightly at fixed π; limited by creep, cooling air costs core flow.</li>
+    <li><b>Afterburner</b>: large thrust gain, much worse TSFC (heat added at low pressure).</li>
+    <li><b>Engine type vs Mach</b>: turboprop below ~M 0.6, high-bypass turbofan ~0.75–0.9, low-bypass afterburning turbofan for supersonic fighters, ramjet ~2–5, scramjet above.</li>
+  </ul>
+  <div data-drill="J2"></div>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam2.js"></script>
+<script>
+(function () {
+  const f = (x, d = 4) => (isFinite(x) ? (+x.toPrecision(d)).toString() : "—");
+  UI.wire("#lab1", () => {
+    const ideal = UI.seg("eI") === "ideal", al = UI.val("eA");
+    const base = { M0: UI.val("eM"), T0: 216.8, p0: 22.7, Tt4: UI.val("eT"), QR: 43e6, alpha: al, pif: UI.val("eF"),
+      pid: ideal ? 1 : 0.97, etac: ideal ? 1 : 0.87, etaf: ideal ? 1 : 0.89, etab: ideal ? 1 : 0.98, pib: ideal ? 1 : 0.96, etat: ideal ? 1 : 0.9, etan: ideal ? 1 : 0.97 };
+    const E = PH.engine(Object.assign({}, base, { pic: UI.val("eP") }));
+    const ok = E.Tt5 > 0 && isFinite(E.u9) && E.u9 > 0 && (!al || isFinite(E.u19));
+    UI.table("#tab1", ["Station", "T<sub>t</sub> (K)", "p<sub>t</sub> (kPa)"], [["0", E.Tt0, E.pt0], ["2", E.Tt2, E.pt2], ...(al ? [["13", E.Tt13, E.pt13]] : []), ["3", E.Tt3, E.pt3], ["4", base.Tt4, E.pt4], ["5", E.Tt5, E.pt5]].map(r => [r[0], f(r[1]), f(r[2])]));
+    const pis = UI.linspace(2, 40, 77), Es = pis.map(p => PH.engine(Object.assign({}, base, { pic: p })));
+    const good = e => e.Tt5 > 0 && isFinite(e.Fs) && e.Fs > 0;
+    UI.plot("#plot1", { xlabel: "π_c", ylabel: "F/ṁ_air · TSFC", xlim: [2, 40], h: 320,
+      series: [{ x: pis.filter((_, i) => good(Es[i])), y: Es.filter(good).map(e => e.Fs), c: 1, width: 2.5 }, { x: pis.filter((_, i) => good(Es[i])), y: Es.filter(good).map(e => e.tsfc), c: 4, width: 2.5 }],
+      points: ok ? [{ x: UI.val("eP"), y: E.Fs, c: 1 }, { x: UI.val("eP"), y: E.tsfc, c: 4 }] : [] });
+    const etap = ok ? E.F * E.u0 / (0.5 * ((1 + E.f) * E.u9 ** 2 - E.u0 ** 2 + al * (E.u19 ** 2 - E.u0 ** 2))) : NaN;
+    UI.readout("#ro1", ok ? [["f", f(E.f, 3)], ["u₉", f(E.u9) + " m/s"], ...(al ? [["u₁₉", f(E.u19) + " m/s"]] : []), ["F/ṁ_air", f(E.Fs) + " N·s/kg"], ["TSFC", f(E.tsfc) + " g/(kN·s)"], ["η_p", f(etap, 3)], ["η_0", f(E.F * E.u0 / (E.f * 43e6), 3)]]
+      : [["result", "no solution: the turbine cannot drive this compressor and fan (raise T_t4 or lower π, α)"]]);
+    UI.live("#lab1", al ? "turbofan" : "turbojet");
+  });
+})();
+</script>
+<script src="../assets/js/module.js"></script>
+</body>
+</html>

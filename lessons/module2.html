@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 · Combustion · Learn Propulsion</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-section="lessons" data-lesson="module2">
+<main>
+<div class="prose">
+  <div class="eyebrow">Module 2 · Exam 2 · Lectures 6–7</div>
+  <h1>Combustion</h1>
+  <p class="lead">The combustor turns chemical energy into the stagnation temperature the rest of the engine runs on. This module covers how much air a fuel needs (C5), how hot the products get or how much fuel a burner needs (C6), and why the products are never just CO₂ and H₂O at high temperature (C7).</p>
+  <nav class="toc"><b>Contents</b><ol>
+    <li><a href="#c5">C5 · Stoichiometry, AF, FA, O/F and φ</a></li>
+    <li><a href="#c6">C6 · Energy balance, heating values and flame temperature</a></li>
+    <li><a href="#c7">C7 · Chemical equilibrium</a></li>
+  </ol></nav>
+
+  <h2 id="c5"><span class="sec">C5</span>Stoichiometry, AF, FA, O/F and φ</h2>
+  <p>Air is modeled on a molar basis as 21% O₂ and 79% N₂, i.e. \(\mathrm{O_2 + 3.76N_2}\). One kmol of "O₂ + 3.76N₂" has mass \(32 + 3.76(28.01) = 137.3\) kg. Atoms are conserved even though molecules are not.</p>
+  <p><b>Major products (complete combustion).</b> C → CO₂, H → H₂O, N₂ passes through. Lean (excess O₂): the extra O₂ appears in the products. Rich (too little O₂): the extra H and C appear as H₂ and CO.</p>
+  <p><b>Balancing recipe</b> for \(\mathrm{C_xH_y} + a(\mathrm{O_2} + 3.76\mathrm{N_2})\): basis of 1 kmol fuel; balance C, then H, then O; nitrogen is \(3.76a\). Stoichiometric \(a_{st} = x + y/4\). For methane, \(\mathrm{CH_4 + 2(O_2 + 3.76N_2) \to CO_2 + 2H_2O + 7.52N_2}\). For decane at φ = 0.5:</p>
+  $$\mathrm{C_{10}H_{22} + 31(O_2 + 3.76N_2) \to 10CO_2 + 11H_2O + 116.56N_2 + 15.5O_2}.$$
+  <p><b>Mixture measures.</b></p>
+  $$AF = \frac{m_{air}}{m_{fuel}},\qquad FA = f = \frac{\dot m_f}{\dot m_0} = \frac1{AF},\qquad O/F = \frac{m_{ox}}{m_{fuel}},\qquad \phi = \frac{FA_{actual}}{FA_{st}} = \frac{AF_{st}}{AF_{actual}}.$$
+  <p>\(\phi &lt; 1\) is lean and \(\phi &gt; 1\) is rich. % theoretical air = \(100a/a_{st} = 100/\phi\). Gas-turbine combustors run lean overall (φ ≈ 0.4, to keep \(T_{t4}\) survivable); rockets run rich (φ ≈ 1.3: lighter exhaust raises Isp). European texts sometimes use the inverse (λ = 1/φ). Example: LOX/methane stoichiometric \(O/F = 2(32)/16 = 4\); the BE-4 at O/F ≈ 3 runs at φ ≈ 4/3.</p>
+</div>
+
+<section class="lab" id="lab1">
+  <div class="lab-head"><span class="num">Interactive 1</span><span class="title">Balance a hydrocarbon with air</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="fx">Carbon atoms x = <output for="fx"></output></label><input type="range" id="fx" min="1" max="16" step="1" value="10" data-dec="0"></div>
+    <div class="ctl"><label for="fy">Hydrogen atoms y = <output for="fy"></output></label><input type="range" id="fy" min="2" max="34" step="2" value="22" data-dec="0"></div>
+    <div class="ctl"><label for="fp">Equivalence ratio φ = <output for="fp"></output></label><input type="range" id="fp" min="0.2" max="1.0" step="0.05" value="0.5" data-dec="2"></div>
+    <div id="ro1" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="eq1" style="font-size:1.05rem;overflow-x:auto;padding:.5rem 0"></div></figure></div>
+</section>
+
+<div class="prose">
+  <div data-drill="C5"></div>
+
+  <h2 id="c6"><span class="sec">C6</span>Energy balance, heating values and flame temperature</h2>
+  <p><b>Reference state.</b> Chemical energy is counted with enthalpies of formation at 298 K and 1 atm (\(\bar h_f^\circ\), Table A-25), with \(\bar h_f^\circ = 0\) for stable elements (O₂, N₂, H₂, C). Each species then carries</p>
+  $$\bar h_i(T) = \bar h_{f,i}^\circ + [\bar h_i(T) - \bar h_i(298\,\text{K})],$$
+  <p>the formation enthalpy plus the sensible part from Table A-23. For a steady combustor with negligible KE and PE:</p>
+  $$\dot Q - \dot W + \sum_R\dot N_i\bar h_i - \sum_P\dot N_i\bar h_i = 0.$$
+  <p><b>Enthalpy of reaction and heating value.</b> \(\Delta H_{rxn}^\circ = \sum_P n_i\bar h_{f,i}^\circ - \sum_R n_j\bar h_{f,j}^\circ\), negative for exothermic reactions. The heating value is \(-\Delta H_{rxn}^\circ\) per unit mass of fuel for stoichiometric combustion: LHV with H₂O as gas (what engines use; it is the \(Q_R\) of cycle analysis), HHV with H₂O as liquid. For decane (gas, \(\bar h_f^\circ \approx -249{,}500\) kJ/kmol): \(\Delta H = 10(-393{,}520) + 11(-241{,}820) - (-249{,}500) = -6.35\times10^6\) kJ/kmol, so LHV ≈ 44,600 kJ/kg.</p>
+  <p><b>Adiabatic flame temperature.</b> With \(\dot Q = \dot W = 0\), all the chemical energy becomes sensible energy, \(H_R(T_R) = H_P(T_{ad})\). Iterate: guess \(T\) (start by pretending all the products are N₂), evaluate \(H_P\) from the tables, bracket and interpolate linearly. \(T_{ad}\) depends on the fuel and oxidizer, φ (it peaks near φ ≈ 1–1.05), the reactant temperature, and the product model. Major-products estimates are too high at high T because dissociation absorbs energy (C7).</p>
+  <p><b>Burner model for cycle analysis.</b> With a constant \(c_p\) and burner efficiency \(\eta_b\), the energy balance per unit air mass flow is</p>
+  $$c_pT_{t3} + \eta_bfQ_R = (1 + f)c_pT_{t4}\quad\Longrightarrow\quad f = \frac{c_p(T_{t4} - T_{t3})}{\eta_bQ_R - c_pT_{t4}}.$$
+  <p>This links C6 to the cycles in Module 3: the burner exit temperature fixes \(f\), and \(f/f_{st}\) is the overall φ.</p>
+  <div data-drill="C6"></div>
+
+  <h2 id="c7"><span class="sec">C7</span>Chemical equilibrium</h2>
+  <p>For a rich LOX/methane mixture with products CO₂, CO, H₂O, H₂, the atom balance gives 3 equations for 4 unknowns. The extra equation comes from the second law: at fixed \(T\) and \(p\), the products settle where the Gibbs energy \(G = H - TS\) is a minimum (like a ball rolling to the bottom of a bowl). CEA and STANJAN minimize \(G\) directly; by hand we use equilibrium constants.</p>
+  <p>For an ideal-gas reaction \(\nu_AA + \nu_BB \rightleftharpoons \nu_CC + \nu_DD\) (equation sheet form):</p>
+  $$K_p(T) = \frac{x_C^{\nu_C}x_D^{\nu_D}}{x_A^{\nu_A}x_B^{\nu_B}}\left(\frac{p}{p_0}\right)^{\Delta n} = \frac{n_C^{\nu_C}n_D^{\nu_D}}{n_A^{\nu_A}n_B^{\nu_B}}\left(\frac{p/p_0}{n_{tot}}\right)^{\Delta n},\qquad \Delta n = \sum_P\nu - \sum_R\nu.$$
+  <p><b>Rules.</b> \(K_p\) depends on \(T\) only. Reverse a reaction → \(1/K\). Multiply by \(n\) → \(K^n\). Add reactions → multiply their \(K\)s (add the logs). Table A-27 lists \(\log_{10}K\).</p>
+  <p><b>Trends (Le Chatelier).</b> Raising \(T\) raises \(K\) for dissociation reactions, so more CO, H₂, O, H and OH appear at high temperature. Raising \(p\) favors the side with fewer moles when \(\Delta n \ne 0\): more pressure, less dissociation. The water–gas shift \(\mathrm{CO_2 + H_2 \rightleftharpoons CO + H_2O}\) has \(\Delta n = 0\), so pressure does not move it; higher T shifts it toward CO.</p>
+  <p><b>Recipe for dissociation of 1 kmol CO₂</b> at \(T\), \(p\): products \((1 - \alpha)\mathrm{CO_2} + \alpha\mathrm{CO} + \tfrac\alpha2\mathrm{O_2}\), \(n = 1 + \alpha/2\), \(\Delta n = \tfrac12\); solve \(K = \dfrac{\alpha(\alpha/2)^{1/2}}{1 - \alpha}\left(\dfrac{p}{1 + \alpha/2}\right)^{1/2}\) for \(\alpha\) by iteration.</p>
+</div>
+
+<section class="lab" id="lab2">
+  <div class="lab-head"><span class="num">Interactive 2</span><span class="title">CO₂ dissociation versus temperature and pressure</span><span class="live"></span></div>
+  <div class="controls">
+    <div class="ctl"><label for="kP">Pressure p = <output for="kP"></output> atm</label><input type="range" id="kP" min="-1" max="2" step="0.05" value="0" data-dec="2"></div>
+    <p class="drag-hint">The slider is log₁₀ p: from 0.1 to 100 atm. log₁₀K comes from Table A-27 (interpolated).</p>
+    <div id="ro2" class="readout"></div>
+  </div>
+  <div class="views"><figure><div id="plot2"></div><figcaption>Fraction α of CO₂ dissociated to CO + ½O₂ at equilibrium, at the chosen pressure (solid) and at 1 atm (dashed).</figcaption></figure></div>
+</section>
+
+<div class="prose">
+  <div data-drill="C7"></div>
+</div>
+</main>
+<script src="../assets/js/cx.js"></script>
+<script src="../assets/js/gd.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/standards.js"></script>
+<script src="../assets/js/gen-exam1.js"></script>
+<script src="../assets/js/gen-exam2.js"></script>
+<script>
+(function () {
+  const f = (x, d = 4) => (+x.toPrecision(d)).toString();
+  UI.wire("#lab1", () => {
+    const x = UI.val("fx"), y = UI.val("fy"), phi = UI.val("fp"), ast = x + y / 4, a = ast / phi;
+    const MW = 12.011 * x + 1.008 * y, AF = a * 137.32 / MW;
+    const fuel = `C_{${x}}H_{${y}}`.replace("C_{1}", "C");
+    const eq = `\\(\\mathrm{${fuel} + ${f(a)}(O_2 + 3.76N_2) \\to ${x}CO_2 + ${y / 2}H_2O + ${f(3.76 * a)}N_2${a - ast > 1e-9 ? ` + ${f(a - ast)}O_2` : ""}}\\)`;
+    const el = document.getElementById("eq1"); el.innerHTML = eq; UI.typeset(el);
+    UI.readout("#ro1", [["a_st = x + y/4", f(ast)], ["fuel M", f(MW) + " kg/kmol"], ["AF_st", f(ast * 137.32 / MW)], ["AF at φ", f(AF)], ["f = FA", f(1 / AF)], ["% theoretical air", f(100 / phi, 3) + "%"]]);
+    UI.live("#lab1", `AF = ${f(AF, 3)}`);
+  });
+  const T = [1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2500, 2600, 2800, 3000, 3200, 3400, 3500];
+  const L = [-10.221, -7.764, -6.014, -4.706, -3.693, -2.884, -2.226, -1.679, -1.440, -1.219, -0.825, -0.485, -0.189, 0.071, 0.190];
+  const logK = t => { let i = 0; while (i < T.length - 2 && t > T[i + 1]) i++; return L[i] + (L[i + 1] - L[i]) * (t - T[i]) / (T[i + 1] - T[i]); };
+  const alpha = (t, p) => { const K = Math.pow(10, logK(t)); return GD.solve(a => (a / (1 - a)) * Math.sqrt(a / 2) * Math.sqrt(p / (1 + a / 2)) - K, 1e-12, 1 - 1e-12); };
+  UI.wire("#lab2", () => {
+    const p = Math.pow(10, UI.val("kP")); document.querySelector('output[for="kP"]').textContent = f(p, 3);
+    const ts = UI.linspace(1600, 3500, 120);
+    UI.plot("#plot2", { xlabel: "T (K)", ylabel: "α", xlim: [1600, 3500], ylim: [0, 1], h: 320,
+      series: [{ x: ts, y: ts.map(t => alpha(t, 1)), c: 6, dash: true }, { x: ts, y: ts.map(t => alpha(t, p)), c: 1, width: 2.5 }] });
+    UI.readout("#ro2", [["α at 2500 K", f(alpha(2500, p), 3)], ["α at 3000 K", f(alpha(3000, p), 3)], ["x_CO at 3000 K", f(alpha(3000, p) / (1 + alpha(3000, p) / 2), 3)]]);
+    UI.live("#lab2", `p = ${f(p, 3)} atm`);
+  });
+})();
+</script>
+<script src="../assets/js/module.js"></script>
+</body>
+</html>
