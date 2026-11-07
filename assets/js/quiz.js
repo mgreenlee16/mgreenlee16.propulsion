@@ -29,6 +29,7 @@
 
   function register(id, meta, gen) {
     TOPICS[id] = Object.assign({ id, gen }, meta);
+    if (!TOPICS[id].std && meta.group) TOPICS[id].std = meta.group.split(" ")[0];
     ORDER.push(id);
   }
 
@@ -225,7 +226,7 @@
     const uid = "ex" + Math.random().toString(36).slice(2, 8);
     let probs = [], timer = null, t0 = 0, submitted = false;
     el.innerHTML = `<div class="exam-bar"><button type="button" class="primary ex-new" style="background:var(--accent);color:#fff;border-color:var(--accent)">Generate a new practice exam</button>
-      <label>Questions <select class="ex-count">${[6, 8, 10, 12, 15].map(n => `<option ${n === (opts.count || 8) ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+      <label>Questions <select class="ex-count">${(opts.counts || [6, 8, 10, 12, 15]).map(n => `<option ${n === (opts.count || 8) ? "selected" : ""}>${n}</option>`).join("")}</select></label>
       <label><input type="checkbox" class="ex-timed"> Timed (${opts.minutes || 50} min)</label>
       <span class="timer"></span></div><div class="ex-body"><p class="prose" style="color:var(--muted)">Press the button to draw a random exam from the topics below. Each exam is different.</p></div>`;
     const body = el.querySelector(".ex-body"), timerEl = el.querySelector(".timer");
@@ -288,7 +289,8 @@
         v.textContent = ok ? "Correct" : "Incorrect"; v.className = "qz-verdict " + (ok ? "good" : "bad");
         box.querySelector(".qz-sol").classList.add("show");
       });
-      body.querySelector(".ex-score").innerHTML = `<b>Score: ${score} / ${probs.length}</b> (${Math.round(100 * score / probs.length)}%)` + (t0 && el.querySelector(".ex-timed").checked ? ` · ${Math.round((Date.now() - t0) / 60000)} min` : "");
+      const need = opts.pass ? opts.pass(probs.length) : 0;
+      body.querySelector(".ex-score").innerHTML = `<b>Score: ${score} / ${probs.length}</b> (${Math.round(100 * score / probs.length)}%)` + (need ? (score >= need ? ` · <b style="color:var(--ok)">Met</b>` : ` · <b style="color:var(--hot)">New attempt required</b> (need ${need})`) : "") + (t0 && el.querySelector(".ex-timed").checked ? ` · ${Math.round((Date.now() - t0) / 60000)} min` : "");
       if (opts.onGrade) opts.onGrade();
     }
     el.querySelector(".ex-new").addEventListener("click", draw);
@@ -309,7 +311,8 @@
     return { render };
   }
 
-  const QZ = { register, mount, exam, mastery, TOPICS, ORDER, R, parse, checkField, close, stats };
+  const byStd = std => ORDER.filter(id => TOPICS[id].std === std);
+  const QZ = { register, byStd, mount, exam, mastery, TOPICS, ORDER, R, parse, checkField, close, stats };
   if (typeof module !== "undefined" && module.exports) module.exports = QZ;
   else root.QZ = QZ;
 })(typeof window !== "undefined" ? window : globalThis);
